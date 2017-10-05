@@ -20,7 +20,10 @@ func main() {
 	e.Use(attachMongoContext(db))
 	handlers.RegisterLicenseEndpoints(e)
 	handlers.RegisterBillingEndpoints(e)
+
 	handlers.RegisterGroupEndpoints(e)
+	handlers.RegisterAdminEndpoints(e)
+	handlers.RegisterSubjectEndpoints(e)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

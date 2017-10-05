@@ -11,46 +11,46 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-// RegisterAdminEndpoints API registration
-func RegisterAdminEndpoints(e *echo.Echo) {
-	g := e.Group("/admin")
-	g.POST("", saveAdmin)
-	g.GET("", getAdmin)
+// RegisterSubjectEndpoints API registration
+func RegisterSubjectEndpoints(e *echo.Echo) {
+	g := e.Group("/subject")
+	g.POST("", saveSubject)
+	g.GET("", getSubject)
 }
 
-func saveAdmin(e echo.Context) error {
+func saveSubject(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
 		return fmt.Errorf("Bad database session")
 	}
 
-	a := models.Admin{}
-	err := e.Bind(&a)
+	s := models.Subject{}
+	err := e.Bind(&s)
 	if err != nil {
 		return err
 	}
 
-	existing := models.Admin{}
-	err = db.C("Admins").Find(bson.M{"adminUuid": g.AdminUUID}).One(&existing)
+	existing := models.Subject{}
+	err = db.C("Subjects").Find(bson.M{"subjectUuid": s.SubjectUUID}).One(&existing)
 
 	if err == nil {
-		a.AdminID = existing.AdminID
-		_, err = db.C("Admins").UpsertId(existing.AdminID, &a)
+		s.SubjectID = existing.SubjectID
+		_, err = db.C("Subjects").UpsertId(existing.SubjectID, &s)
 		if err != nil {
 			return err
 		}
 	} else {
-		if a.AdminID == "" {
-			a.AdminID = bson.NewObjectId()
+		if s.SubjectID == "" {
+			s.SubjectID = bson.NewObjectId()
 		}
 
-		err = db.C("Admins").Insert(&a)
+		err = db.C("Subjects").Insert(&s)
 		if err != nil {
 			return err
 		}
 	}
 
-	return e.JSON(http.StatusOK, a)
+	return e.JSON(http.StatusOK, s)
 }
 
 func getGroup(e echo.Context) error {
@@ -68,14 +68,14 @@ func getGroup(e echo.Context) error {
 		return fmt.Errorf("Bad parameters")
 	}
 
-	a := models.Admin{}
+	s := models.Subject{}
 	if id.Valid() {
-		err = db.C("Admins").FindId(id).One(&a)
+		err = db.C("Subjects").FindId(id).One(&s)
 	} else {
-		err = db.C("Admins").Find(bson.M{"adminUuid": uuid}).One(&a)
+		err = db.C("Subjects").Find(bson.M{"subjectUuid": uuid}).One(&s)
 	}
 	if err != nil {
 		return e.NoContent(http.StatusNotFound)
 	}
-	return e.JSON(http.StatusOK, a)
+	return e.JSON(http.StatusOK, s)
 }

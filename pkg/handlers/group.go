@@ -6,59 +6,48 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	uuid "github.com/satori/go.uuid"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
+// RegisterGroupEndpoints API registration
 func RegisterGroupEndpoints(e *echo.Echo) {
 	g := e.Group("/groups")
-	g.POST("", addGroup)
-	g.PUT("/:id", updateGroup)
-	g.GET("/:id", getGroup)
-	g.GET("", getGroups)
+	g.POST("", saveGroup)
+	g.GET("", getGroup)
 }
 
-func addGroup(e echo.Context) error {
+func saveGroup(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
 		return fmt.Errorf("Bad database session")
 	}
 
-	a := models.Group{}
-	err := e.Bind(&a)
-	if err != nil {
-		return err
-	}
-	if a.GroupID == "" {
-		a.GroupID = bson.NewObjectId()
-	}
-
-	_, err = db.C("Groups").UpsertId(a.GroupID, &a)
+	g := models.Group{}
+	err := e.Bind(&g)
 	if err != nil {
 		return err
 	}
 
-	return e.JSON(http.StatusOK, a)
-}
+	existing := models.License{}
+	err = db.C("Groups").Find(bson.M{"groupUuid": g.GroupUUID}).One(&existing)
 
-func updateGroup(e echo.Context) error {
-	db := e.Get("database").(*mgo.Database)
-	if db == nil {
-		return fmt.Errorf("Bad database session")
-	}
+	if err == nil {
+		g.GroupID = existing.GroupID
+		_, err = db.C("Groups").UpsertId(existing.GroupID, &g)
+		if err != nil {
+			return err
+		}
+	} else {
+		if g.GroupID == "" {
+			g.GroupID = bson.NewObjectId()
+		}
 
-	a := models.Group{}
-	err := e.Bind(&a)
-	if err != nil {
-		return err
-	}
-	if a.GroupID == "" {
-		return e.NoContent(http.StatusNotFound)
-	}
-
-	_, err = db.C("Groups").UpsertId(a.GroupID, &a)
-	if err != nil {
-		return err
+		err = db.C("Groups").Insert(&g)
+		if err != nil {
+			return err
+		}
 	}
 
 	return e.JSON(http.StatusOK, a)
@@ -70,26 +59,23 @@ func getGroup(e echo.Context) error {
 		return fmt.Errorf("Bad database session")
 	}
 
-	id := bson.ObjectIdHex(e.Param("id"))
-	if !id.Valid() {
+	var id bson.ObjectId
+	if idParam := e.QueryParam("id"); idParam != "" && bson.IsObjectIdHex(idParam) {
+		id = bson.ObjectIdHex(idParam)
+	}
+	uuid, err := uuid.FromString(e.QueryParam("uuid"))
+	if !id.Valid() && err != nil {
 		return fmt.Errorf("Bad parameters")
 	}
 
-	a := models.Group{}
-	err := db.C("Groups").FindId(id).One(&a)
+	g := models.Group{}
+	if id.Valid() {
+		err = db.C("Groups").FindId(id).One(&a)
+	} else {
+		err = db.C("Groups").Find(bson.M{"groupUuid": uuid}).One(&a)
+	}
 	if err != nil {
 		return e.NoContent(http.StatusNotFound)
 	}
-	return e.JSON(http.StatusOK, a)
-}
-
-func getGroups(e echo.Context) error {
-	db := e.Get("database").(*mgo.Database)
-	if db == nil {
-		return fmt.Errorf("Bad database session")
-	}
-
-	a := []models.Group{}
-	db.C("Groups").Find(nil).Sort("groupName").Limit(100).All(&a)
-	return e.JSON(http.StatusOK, a)
+	return e.JSON(http.StatusOK, g)
 }
