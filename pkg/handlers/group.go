@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"isogate/pkg/models"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo"
 	uuid "github.com/satori/go.uuid"
@@ -13,7 +14,7 @@ import (
 
 // RegisterGroupEndpoints API registration
 func RegisterGroupEndpoints(e *echo.Echo) {
-	g := e.Group("/groups")
+	g := e.Group("/group")
 	g.POST("", saveGroup)
 	g.GET("", getGroup)
 }
@@ -29,8 +30,9 @@ func saveGroup(e echo.Context) error {
 	if err != nil {
 		return err
 	}
+	g.ServerUpdateDateTime = time.Now().UTC()
 
-	existing := models.License{}
+	existing := models.Group{}
 	err = db.C("Groups").Find(bson.M{"groupUuid": g.GroupUUID}).One(&existing)
 
 	if err == nil {
@@ -50,7 +52,7 @@ func saveGroup(e echo.Context) error {
 		}
 	}
 
-	return e.JSON(http.StatusOK, a)
+	return e.JSON(http.StatusOK, g)
 }
 
 func getGroup(e echo.Context) error {
@@ -70,9 +72,9 @@ func getGroup(e echo.Context) error {
 
 	g := models.Group{}
 	if id.Valid() {
-		err = db.C("Groups").FindId(id).One(&a)
+		err = db.C("Groups").FindId(id).One(&g)
 	} else {
-		err = db.C("Groups").Find(bson.M{"groupUuid": uuid}).One(&a)
+		err = db.C("Groups").Find(bson.M{"groupUuid": uuid}).One(&g)
 	}
 	if err != nil {
 		return e.NoContent(http.StatusNotFound)

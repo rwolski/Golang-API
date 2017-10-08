@@ -9,14 +9,17 @@ import (
 
 // Admin model
 type Admin struct {
-	AdminID           bson.ObjectId `json:"adminID" bson:"_id"`
-	AdminUUID         uuid.UUID     `json:"adminUUID" bson:"adminUUID"`
-	AdminLoginName    string        `json:"adminLoginName" bson:"adminLoginName"`
-	AdminSiteUUID     uuid.UUID     `json:"adminSiteUUID" bson:"adminSiteUUID"`
-	AdminStatus       int           `json:"adminStatus" bson:"adminStatus"`
-	AdminActive       bool          `json:"adminActive" bson:"adminActive"`
-	AdminCreationDate time.Time     `json:"adminCreationDate" bson:"adminCreationDate"`
-	AdminEmail        string        `json:"adminEmail" bson:"adminEmail"`
-	AdminPassword     string        `json:"adminPassword" bson:"adminPassword"`
-	AdminPasswordDate time.Time     `json:"adminPasswordDate" bson:"adminPasswordDate"`
+	AdminID              bson.ObjectId `json:"adminID" bson:"_id"`
+	AdminUUID            uuid.UUID     `json:"adminUUID" bson:"adminUUID"`
+	AdminLoginName       string        `json:"adminLoginName" bson:"adminLoginName"`
+	AdminSiteUUID        uuid.UUID     `json:"adminSiteUUID" bson:"adminSiteUUID"`
+	AdminStatus          int           `json:"adminStatus" bson:"adminStatus"`
+	AdminActive          bool          `json:"adminActive" bson:"adminActive"`
+	AdminCreationDate    time.Time     `json:"adminCreationDate" bson:"adminCreationDate"`
+	AdminEmail           string        `json:"adminEmail" bson:"adminEmail"`
+	AdminPassword        string        `json:"adminPassword" bson:"adminPassword"`
+	AdminPasswordDate    time.Time     `json:"adminPasswordDate" bson:"adminPasswordDate"`
+	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime" bson:"serverUpdateDateTime"`
+
+	//LocalUpdateDateTime  time.Time     `json:"lastLocalUpdateDateTime" bson:"lastLocalUpdateDateTime"`
 }

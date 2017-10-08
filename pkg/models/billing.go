@@ -9,12 +9,13 @@ import (
 
 // BillingAccount model
 type BillingAccount struct {
-	BillingAccountID         bson.ObjectId `json:"billingAccountId" bson:"_id"`
-	BillingAccountUUID       uuid.UUID     `json:"billingAccountUuid" bson:"billingAccountUuid"`
-	BillingAdminID           uuid.UUID     `json:"billingAdminId" bson:"billingAdminId"`
-	BillingCredits           int           `json:"billingCredits" bson:"billingCredits"`
-	LastLocalUpdateDateTime  time.Time     `json:"lastLocalUpdateDateTime" bson:"lastLocalUpdateDateTime"`
-	LastServerUpdateDateTime time.Time     `json:"lastServerUpdateDateTime" bson:"lastServerUpdateDateTime"`
+	BillingAccountID     bson.ObjectId `json:"billingAccountId" bson:"_id"`
+	BillingAccountUUID   uuid.UUID     `json:"billingAccountUuid" bson:"billingAccountUuid"`
+	BillingAdminID       uuid.UUID     `json:"billingAdminId" bson:"billingAdminId"`
+	BillingCredits       int           `json:"billingCredits" bson:"billingCredits"`
+	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime" bson:"serverUpdateDateTime"`
+
+	//LocalUpdateDateTime  time.Time     `json:"lastLocalUpdateDateTime" bson:"lastLocalUpdateDateTime"`
 }
 
 // BillingEvent model
@@ -32,8 +33,8 @@ type BillingEvent struct {
 }
 
 // AdminBillingAccount model
-type AdminBillingAccount struct {
-	AdminBillingID   bson.ObjectId `json:"adminBillingId" bson:"_id"`
-	BillingAccountID bson.ObjectId `json:"billingAccountId" bson:"billingAccountId"`
-	AdminID          bson.ObjectId `json:"adminId" bson:"adminId"`
-}
+// type AdminBillingAccount struct {
+// 	AdminBillingID   bson.ObjectId `json:"adminBillingId" bson:"_id"`
+// 	BillingAccountID bson.ObjectId `json:"billingAccountId" bson:"billingAccountId"`
+// 	AdminID          bson.ObjectId `json:"adminId" bson:"adminId"`
+// }

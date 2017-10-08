@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"isogate/pkg/models"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo"
 	uuid "github.com/satori/go.uuid"
@@ -29,9 +30,10 @@ func saveAdmin(e echo.Context) error {
 	if err != nil {
 		return err
 	}
+	a.ServerUpdateDateTime = time.Now().UTC()
 
 	existing := models.Admin{}
-	err = db.C("Admins").Find(bson.M{"adminUuid": g.AdminUUID}).One(&existing)
+	err = db.C("Admins").Find(bson.M{"adminUuid": a.AdminUUID}).One(&existing)
 
 	if err == nil {
 		a.AdminID = existing.AdminID
@@ -53,7 +55,7 @@ func saveAdmin(e echo.Context) error {
 	return e.JSON(http.StatusOK, a)
 }
 
-func getGroup(e echo.Context) error {
+func getAdmin(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
 		return fmt.Errorf("Bad database session")

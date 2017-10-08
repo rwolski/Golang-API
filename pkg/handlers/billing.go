@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"isogate/pkg/models"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo"
 	uuid "github.com/satori/go.uuid"
@@ -11,6 +12,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// RegisterBillingEndpoints registers endpoints
 func RegisterBillingEndpoints(e *echo.Echo) {
 	b := e.Group("/billing")
 	b.POST("/account", saveAccount)
@@ -30,6 +32,7 @@ func saveAccount(e echo.Context) error {
 	if err != nil {
 		return err
 	}
+	a.ServerUpdateDateTime = time.Now().UTC()
 
 	if a.BillingAccountID == "" {
 		a.BillingAccountID = bson.NewObjectId()
@@ -80,6 +83,12 @@ func saveEvent(e echo.Context) error {
 	err := e.Bind(&a)
 	if err != nil {
 		return err
+	}
+	if a.SessionStatus == 1 && a.ServerStartDateTime.IsZero() {
+		a.ServerStartDateTime = time.Now().UTC()
+	}
+	if a.SessionStatus == 2 && a.ServerEndDateTime.IsZero() {
+		a.ServerEndDateTime = time.Now().UTC()
 	}
 
 	if a.BillingEventID == "" {

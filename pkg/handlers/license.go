@@ -11,6 +11,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// RegisterLicenseEndpoints registers endpoints
 func RegisterLicenseEndpoints(e *echo.Echo) {
 	g := e.Group("/license")
 	g.POST("", saveLicense)

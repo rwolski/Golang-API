@@ -25,6 +25,9 @@ func main() {
 	handlers.RegisterAdminEndpoints(e)
 	handlers.RegisterSubjectEndpoints(e)
 
+	handlers.RegisterChoiceStandardTestEndpoints(e)
+	handlers.RegisterChoiceMazeTestEndpoints(e)
+
 	e.Logger.Fatal(e.Start(":8080"))
 }
 

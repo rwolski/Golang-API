@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"isogate/pkg/models"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo"
 	uuid "github.com/satori/go.uuid"
@@ -29,6 +30,7 @@ func saveSubject(e echo.Context) error {
 	if err != nil {
 		return err
 	}
+	s.ServerUpdateDateTime = time.Now().UTC()
 
 	existing := models.Subject{}
 	err = db.C("Subjects").Find(bson.M{"subjectUuid": s.SubjectUUID}).One(&existing)
@@ -53,7 +55,7 @@ func saveSubject(e echo.Context) error {
 	return e.JSON(http.StatusOK, s)
 }
 
-func getGroup(e echo.Context) error {
+func getSubject(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
 		return fmt.Errorf("Bad database session")
