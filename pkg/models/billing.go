@@ -11,7 +11,7 @@ import (
 type BillingAccount struct {
 	BillingAccountID     bson.ObjectId `json:"billingAccountId" bson:"_id"`
 	BillingAccountUUID   uuid.UUID     `json:"billingAccountUuid" bson:"billingAccountUuid"`
-	BillingAdminID       uuid.UUID     `json:"billingAdminId" bson:"billingAdminId"`
+	BillingAdminUUID     uuid.UUID     `json:"billingAdminUuid" bson:"billingAdminUuid"`
 	BillingCredits       int           `json:"billingCredits" bson:"billingCredits"`
 	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime" bson:"serverUpdateDateTime"`
 
@@ -22,7 +22,7 @@ type BillingAccount struct {
 type BillingEvent struct {
 	BillingEventID      bson.ObjectId `json:"billingEventId" bson:"_id"`
 	BillingEventUUID    uuid.UUID     `json:"billingEventUuid" bson:"billingEventUuid"`
-	BillingAccountID    bson.ObjectId `json:"billingAccountId" bson:"billingAccountId"`
+	BillingAccountUUID  bson.ObjectId `json:"billingAccountUuid" bson:"billingAccountUuid"`
 	SessionID           uuid.UUID     `json:"sessionId" bson:"sessionId"`
 	SessionType         int           `json:"sessionType" bson:"sessionType"`
 	SessionStatus       int           `json:"sessionStatus" bson:"sessionStatus"`

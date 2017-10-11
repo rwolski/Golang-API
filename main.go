@@ -18,9 +18,11 @@ func main() {
 
 	e := echo.New()
 	e.Use(attachMongoContext(db))
+
 	handlers.RegisterLicenseEndpoints(e)
 	handlers.RegisterBillingEndpoints(e)
 
+	handlers.RegisterSiteEndpoints(e)
 	handlers.RegisterGroupEndpoints(e)
 	handlers.RegisterAdminEndpoints(e)
 	handlers.RegisterSubjectEndpoints(e)
