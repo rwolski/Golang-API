@@ -13,9 +13,8 @@ type BillingAccount struct {
 	BillingAccountUUID   uuid.UUID     `json:"billingAccountUuid" bson:"billingAccountUuid"`
 	BillingAdminUUID     uuid.UUID     `json:"billingAdminUuid" bson:"billingAdminUuid"`
 	BillingCredits       int           `json:"billingCredits" bson:"billingCredits"`
+	LocalUpdateDateTime  time.Time     `json:"localUpdateDateTime" bson:"-"`
 	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime" bson:"serverUpdateDateTime"`
-
-	//LocalUpdateDateTime  time.Time     `json:"lastLocalUpdateDateTime" bson:"lastLocalUpdateDateTime"`
 }
 
 // BillingEvent model

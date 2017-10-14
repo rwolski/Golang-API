@@ -13,6 +13,7 @@ type Group struct {
 	GroupUUID            uuid.UUID     `json:"groupUuid" bson:"groupUuid"`
 	GroupName            string        `json:"groupName" bson:"groupName"`
 	GroupActive          bool          `json:"groupActive" bson:"groupActive"`
+	LocalUpdateDateTime  time.Time     `json:"localUpdateDateTime" bson:"-"`
 	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime" bson:"serverUpdateDateTime"`
 
 	//LocalUpdateDateTime  time.Time     `json:"lastLocalUpdateDateTime" bson:"lastLocalUpdateDateTime"`

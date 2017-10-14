@@ -14,9 +14,9 @@ import (
 
 // RegisterSubjectEndpoints API registration
 func RegisterSubjectEndpoints(e *echo.Echo) {
-	g := e.Group("/subject")
-	g.POST("", saveSubject)
-	g.GET("", getSubject)
+	e.POST("/subject", saveSubject)
+	e.GET("/subject", getSubject)
+	e.GET("/subjects", getSubjects)
 }
 
 func saveSubject(e echo.Context) error {
@@ -36,6 +36,11 @@ func saveSubject(e echo.Context) error {
 	err = db.C("Subjects").Find(bson.M{"subjectUuid": s.SubjectUUID}).One(&existing)
 
 	if err == nil {
+		if existing.ServerUpdateDateTime.After(s.LocalUpdateDateTime) {
+			// Server version is more recent
+			return e.JSON(http.StatusConflict, existing)
+		}
+
 		s.SubjectID = existing.SubjectID
 		_, err = db.C("Subjects").UpsertId(existing.SubjectID, &s)
 		if err != nil {
@@ -76,6 +81,20 @@ func getSubject(e echo.Context) error {
 	} else {
 		err = db.C("Subjects").Find(bson.M{"subjectUuid": uuid}).One(&s)
 	}
+	if err != nil {
+		return e.NoContent(http.StatusNotFound)
+	}
+	return e.JSON(http.StatusOK, s)
+}
+
+func getSubjects(e echo.Context) error {
+	db := e.Get("database").(*mgo.Database)
+	if db == nil {
+		return fmt.Errorf("Bad database session")
+	}
+
+	var s []*models.Group
+	err := db.C("Subjects").Find(nil).All(&s)
 	if err != nil {
 		return e.NoContent(http.StatusNotFound)
 	}

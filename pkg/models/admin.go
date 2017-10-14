@@ -19,6 +19,7 @@ type Admin struct {
 	AdminEmail           string        `json:"adminEmail" bson:"adminEmail"`
 	AdminPassword        string        `json:"adminPassword" bson:"adminPassword"`
 	AdminPasswordDate    time.Time     `json:"adminPasswordDate" bson:"adminPasswordDate"`
+	LocalUpdateDateTime  time.Time     `json:"localUpdateDateTime" bson:"-"`
 	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime" bson:"serverUpdateDateTime"`
 
 	//LocalUpdateDateTime  time.Time     `json:"lastLocalUpdateDateTime" bson:"lastLocalUpdateDateTime"`

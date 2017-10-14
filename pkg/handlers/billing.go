@@ -34,13 +34,29 @@ func saveAccount(e echo.Context) error {
 	}
 	a.ServerUpdateDateTime = time.Now().UTC()
 
-	if a.BillingAccountID == "" {
-		a.BillingAccountID = bson.NewObjectId()
-	}
+	existing := models.BillingAccount{}
+	err = db.C("BillingAccounts").Find(bson.M{"billingAccountUuid": a.BillingAccountUUID}).One(&existing)
 
-	_, err = db.C("BillingAccounts").Upsert(bson.M{"billingAccountUuid": a.BillingAccountUUID}, &a)
-	if err != nil {
-		return err
+	if err == nil {
+		if existing.ServerUpdateDateTime.After(a.LocalUpdateDateTime) {
+			// Server version is more recent
+			return e.JSON(http.StatusConflict, existing)
+		}
+
+		a.BillingAccountID = existing.BillingAccountID
+		_, err = db.C("BillingAccounts").UpsertId(existing.BillingAccountID, &a)
+		if err != nil {
+			return err
+		}
+	} else {
+		if a.BillingAccountID == "" {
+			a.BillingAccountID = bson.NewObjectId()
+		}
+
+		err = db.C("BillingAccounts").Insert(&a)
+		if err != nil {
+			return err
+		}
 	}
 
 	return e.JSON(http.StatusOK, a)

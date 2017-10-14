@@ -28,7 +28,6 @@ type Subject struct {
 	SubjectCreationDate  time.Time     `json:"subjectCreationDate" bson:"subjectCreationDate"`
 	SubjectEthnicity     string        `json:"subjectEthnicity" bson:"subjectEthnicity"`
 	SubjectHeight        float32       `json:"subjectHeight" bson:"subjectHeight"`
+	LocalUpdateDateTime  time.Time     `json:"localUpdateDateTime" bson:"-"`
 	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime" bson:"serverUpdateDateTime"`
-
-	//LocalUpdateDateTime  time.Time     `json:"lastLocalUpdateDateTime" bson:"lastLocalUpdateDateTime"`
 }

@@ -14,9 +14,9 @@ import (
 
 // RegisterGroupEndpoints API registration
 func RegisterGroupEndpoints(e *echo.Echo) {
-	g := e.Group("/group")
-	g.POST("", saveGroup)
-	g.GET("", getGroup)
+	e.POST("/group", saveGroup)
+	e.GET("/group", getGroup)
+	e.GET("/groups", getGroups)
 }
 
 func saveGroup(e echo.Context) error {
@@ -36,6 +36,11 @@ func saveGroup(e echo.Context) error {
 	err = db.C("Groups").Find(bson.M{"groupUuid": g.GroupUUID}).One(&existing)
 
 	if err == nil {
+		if existing.ServerUpdateDateTime.After(g.LocalUpdateDateTime) {
+			// Server version is more recent
+			return e.JSON(http.StatusConflict, existing)
+		}
+
 		g.GroupID = existing.GroupID
 		_, err = db.C("Groups").UpsertId(existing.GroupID, &g)
 		if err != nil {
@@ -76,6 +81,20 @@ func getGroup(e echo.Context) error {
 	} else {
 		err = db.C("Groups").Find(bson.M{"groupUuid": uuid}).One(&g)
 	}
+	if err != nil {
+		return e.NoContent(http.StatusNotFound)
+	}
+	return e.JSON(http.StatusOK, g)
+}
+
+func getGroups(e echo.Context) error {
+	db := e.Get("database").(*mgo.Database)
+	if db == nil {
+		return fmt.Errorf("Bad database session")
+	}
+
+	var g []*models.Group
+	err := db.C("Groups").Find(nil).All(&g)
 	if err != nil {
 		return e.NoContent(http.StatusNotFound)
 	}

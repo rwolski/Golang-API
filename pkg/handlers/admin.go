@@ -14,9 +14,9 @@ import (
 
 // RegisterAdminEndpoints API registration
 func RegisterAdminEndpoints(e *echo.Echo) {
-	g := e.Group("/admin")
-	g.POST("", saveAdmin)
-	g.GET("", getAdmin)
+	e.POST("/admin", saveAdmin)
+	e.GET("/admin", getAdmin)
+	e.GET("/admins", getAdmins)
 }
 
 func saveAdmin(e echo.Context) error {
@@ -36,6 +36,11 @@ func saveAdmin(e echo.Context) error {
 	err = db.C("Admins").Find(bson.M{"adminUuid": a.AdminUUID}).One(&existing)
 
 	if err == nil {
+		if existing.ServerUpdateDateTime.After(a.LocalUpdateDateTime) {
+			// Server version is more recent
+			return e.JSON(http.StatusConflict, existing)
+		}
+
 		a.AdminID = existing.AdminID
 		_, err = db.C("Admins").UpsertId(existing.AdminID, &a)
 		if err != nil {
@@ -76,6 +81,20 @@ func getAdmin(e echo.Context) error {
 	} else {
 		err = db.C("Admins").Find(bson.M{"adminUuid": uuid}).One(&a)
 	}
+	if err != nil {
+		return e.NoContent(http.StatusNotFound)
+	}
+	return e.JSON(http.StatusOK, a)
+}
+
+func getAdmins(e echo.Context) error {
+	db := e.Get("database").(*mgo.Database)
+	if db == nil {
+		return fmt.Errorf("Bad database session")
+	}
+
+	var a []*models.Admin
+	err := db.C("Admins").Find(nil).All(&a)
 	if err != nil {
 		return e.NoContent(http.StatusNotFound)
 	}
