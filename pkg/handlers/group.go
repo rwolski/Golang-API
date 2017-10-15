@@ -36,8 +36,11 @@ func saveGroup(e echo.Context) error {
 	err = db.C("Groups").Find(bson.M{"groupUuid": g.GroupUUID}).One(&existing)
 
 	if err == nil {
+		fmt.Printf("Found group: %+v", existing)
+
 		if existing.ServerUpdateDateTime.After(g.LocalUpdateDateTime) {
 			// Server version is more recent
+			fmt.Printf("Group is out of date, returning")
 			return e.JSON(http.StatusConflict, existing)
 		}
 
@@ -46,10 +49,15 @@ func saveGroup(e echo.Context) error {
 		if err != nil {
 			return err
 		}
+
+		fmt.Printf("Updated group: %+v", g)
 	} else {
+
 		if g.GroupID == "" {
 			g.GroupID = bson.NewObjectId()
 		}
+
+		fmt.Printf("New group: %+v", g)
 
 		err = db.C("Groups").Insert(&g)
 		if err != nil {
@@ -93,8 +101,8 @@ func getGroups(e echo.Context) error {
 		return fmt.Errorf("Bad database session")
 	}
 
-	var g []*models.Group
-	err := db.C("Groups").Find(nil).All(&g)
+	g := models.Groups{}
+	err := db.C("Groups").Find(nil).All(&g.Groups)
 	if err != nil {
 		return e.NoContent(http.StatusNotFound)
 	}

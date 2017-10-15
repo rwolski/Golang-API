@@ -35,8 +35,11 @@ func saveLicense(e echo.Context) error {
 	err = db.C("Licenses").Find(bson.M{"serialKey": a.SerialKey}).One(&existing)
 
 	if err == nil {
+		fmt.Printf("Found license: %+v", existing)
+
 		if a.MachineKey != existing.MachineKey {
 			// Found existing key with different machine key
+			fmt.Printf("Trying to activate license with wrong PC")
 			return e.String(http.StatusConflict, "Serial key already in use.")
 		}
 
@@ -45,10 +48,14 @@ func saveLicense(e echo.Context) error {
 		if err != nil {
 			return err
 		}
+
+		fmt.Printf("Updated license: %+v", a)
 	} else {
 		if a.LicenseID == "" {
 			a.LicenseID = bson.NewObjectId()
 		}
+
+		fmt.Printf("New license: %+v", a)
 
 		err = db.C("Licenses").Insert(&a)
 		if err != nil {

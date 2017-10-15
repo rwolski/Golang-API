@@ -36,8 +36,11 @@ func saveAdmin(e echo.Context) error {
 	err = db.C("Admins").Find(bson.M{"adminUuid": a.AdminUUID}).One(&existing)
 
 	if err == nil {
+		fmt.Printf("Found admin: %+v", existing)
+
 		if existing.ServerUpdateDateTime.After(a.LocalUpdateDateTime) {
 			// Server version is more recent
+			fmt.Printf("Admin is out of date, returning")
 			return e.JSON(http.StatusConflict, existing)
 		}
 
@@ -46,10 +49,13 @@ func saveAdmin(e echo.Context) error {
 		if err != nil {
 			return err
 		}
+		fmt.Printf("Updated admin: %+v", a)
 	} else {
 		if a.AdminID == "" {
 			a.AdminID = bson.NewObjectId()
 		}
+
+		fmt.Printf("New admin: %+v", a)
 
 		err = db.C("Admins").Insert(&a)
 		if err != nil {
@@ -93,8 +99,8 @@ func getAdmins(e echo.Context) error {
 		return fmt.Errorf("Bad database session")
 	}
 
-	var a []*models.Admin
-	err := db.C("Admins").Find(nil).All(&a)
+	a := models.Admins{}
+	err := db.C("Admins").Find(nil).All(&a.Admins)
 	if err != nil {
 		return e.NoContent(http.StatusNotFound)
 	}

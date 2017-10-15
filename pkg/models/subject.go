@@ -31,3 +31,8 @@ type Subject struct {
 	LocalUpdateDateTime  time.Time     `json:"localUpdateDateTime" bson:"-"`
 	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime" bson:"serverUpdateDateTime"`
 }
+
+// Subjects is a collection of Subjects
+type Subjects struct {
+	Subjects []Subject
+}

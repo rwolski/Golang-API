@@ -36,8 +36,11 @@ func saveSubject(e echo.Context) error {
 	err = db.C("Subjects").Find(bson.M{"subjectUuid": s.SubjectUUID}).One(&existing)
 
 	if err == nil {
+		fmt.Printf("Found subject: %+v", existing)
+
 		if existing.ServerUpdateDateTime.After(s.LocalUpdateDateTime) {
 			// Server version is more recent
+			fmt.Printf("Subject is out of date, returning")
 			return e.JSON(http.StatusConflict, existing)
 		}
 
@@ -46,10 +49,13 @@ func saveSubject(e echo.Context) error {
 		if err != nil {
 			return err
 		}
+		fmt.Printf("Updated subject: %+v", s)
 	} else {
 		if s.SubjectID == "" {
 			s.SubjectID = bson.NewObjectId()
 		}
+
+		fmt.Printf("New subject: %+v", s)
 
 		err = db.C("Subjects").Insert(&s)
 		if err != nil {
@@ -93,8 +99,8 @@ func getSubjects(e echo.Context) error {
 		return fmt.Errorf("Bad database session")
 	}
 
-	var s []*models.Group
-	err := db.C("Subjects").Find(nil).All(&s)
+	s := models.Subjects{}
+	err := db.C("Subjects").Find(nil).All(&s.Subjects)
 	if err != nil {
 		return e.NoContent(http.StatusNotFound)
 	}

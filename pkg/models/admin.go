@@ -24,3 +24,8 @@ type Admin struct {
 
 	//LocalUpdateDateTime  time.Time     `json:"lastLocalUpdateDateTime" bson:"lastLocalUpdateDateTime"`
 }
+
+// Admins is a collection of Admins
+type Admins struct {
+	Admins []Admin
+}

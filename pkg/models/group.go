@@ -18,3 +18,8 @@ type Group struct {
 
 	//LocalUpdateDateTime  time.Time     `json:"lastLocalUpdateDateTime" bson:"lastLocalUpdateDateTime"`
 }
+
+// Groups is a collection of groups
+type Groups struct {
+	Groups []*Group
+}

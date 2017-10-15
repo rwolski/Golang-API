@@ -12,9 +12,9 @@ type BillingAccount struct {
 	BillingAccountID     bson.ObjectId `json:"billingAccountId" bson:"_id"`
 	BillingAccountUUID   uuid.UUID     `json:"billingAccountUuid" bson:"billingAccountUuid"`
 	BillingAdminUUID     uuid.UUID     `json:"billingAdminUuid" bson:"billingAdminUuid"`
-	BillingCredits       int           `json:"billingCredits" bson:"billingCredits"`
+	BillingCredits       int           `json:"billingCredits,omitempty" bson:"billingCredits"`
 	LocalUpdateDateTime  time.Time     `json:"localUpdateDateTime" bson:"-"`
-	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime" bson:"serverUpdateDateTime"`
+	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime,omitempty" bson:"serverUpdateDateTime"`
 }
 
 // BillingEvent model
@@ -31,9 +31,7 @@ type BillingEvent struct {
 	ServerEndDateTime   time.Time     `json:"serverEndDateTime" bson:"serverEndDateTime"`
 }
 
-// AdminBillingAccount model
-// type AdminBillingAccount struct {
-// 	AdminBillingID   bson.ObjectId `json:"adminBillingId" bson:"_id"`
-// 	BillingAccountID bson.ObjectId `json:"billingAccountId" bson:"billingAccountId"`
-// 	AdminID          bson.ObjectId `json:"adminId" bson:"adminId"`
-// }
+// BillingAccounts is a collection of BillingAccounts
+type BillingAccounts struct {
+	Accounts []BillingAccount
+}

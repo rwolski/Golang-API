@@ -38,8 +38,11 @@ func saveAccount(e echo.Context) error {
 	err = db.C("BillingAccounts").Find(bson.M{"billingAccountUuid": a.BillingAccountUUID}).One(&existing)
 
 	if err == nil {
+		fmt.Printf("Found bill account: %+v", existing)
+
 		if existing.ServerUpdateDateTime.After(a.LocalUpdateDateTime) {
 			// Server version is more recent
+			fmt.Printf("Billing account is out of date, returning")
 			return e.JSON(http.StatusConflict, existing)
 		}
 
@@ -48,10 +51,14 @@ func saveAccount(e echo.Context) error {
 		if err != nil {
 			return err
 		}
+
+		fmt.Printf("Updated billing account: %+v", a)
 	} else {
 		if a.BillingAccountID == "" {
 			a.BillingAccountID = bson.NewObjectId()
 		}
+
+		fmt.Printf("New billing account: %+v", a)
 
 		err = db.C("BillingAccounts").Insert(&a)
 		if err != nil {
