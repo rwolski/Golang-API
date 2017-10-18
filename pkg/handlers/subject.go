@@ -99,8 +99,13 @@ func getSubjects(e echo.Context) error {
 		return fmt.Errorf("Bad database session")
 	}
 
+	uuid, err := uuid.FromString(e.QueryParam("siteUuid"))
+	if err != nil {
+		return fmt.Errorf("Bad parameters")
+	}
+
 	s := models.Subjects{}
-	err := db.C("Subjects").Find(nil).All(&s.Subjects)
+	err = db.C("Subjects").Find(bson.M{"subjectSiteUuid": uuid}).All(&s.Subjects)
 	if err != nil {
 		return e.NoContent(http.StatusNotFound)
 	}

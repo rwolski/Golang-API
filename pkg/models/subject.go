@@ -16,7 +16,7 @@ type Subject struct {
 	SubjectAdditionalID  string        `json:"subjectAdditionalId" bson:"subjectAdditionalId"`
 	SubjectAdditionalID2 string        `json:"subjectAdditionalId2" bson:"subjectAdditionalId2"`
 	SubjectStatus        int           `json:"subjectStatus" bson:"subjectStatus"`
-	SubjectSiteUUID      uuid.UUID     `json:"subjectSiteUUID" bson:"subjectSiteUUID"`
+	SubjectSiteUUID      uuid.UUID     `json:"subjectSiteUuid" bson:"subjectSiteUuid"`
 	SubjectFirstName     string        `json:"subjectFirstName" bson:"subjectFirstName"`
 	SubjectLastName      string        `json:"subjectLastName" bson:"subjectLastName"`
 	SubjectAddress       string        `json:"subjectAddress" bson:"subjectAddress"`

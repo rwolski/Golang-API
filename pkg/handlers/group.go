@@ -101,6 +101,11 @@ func getGroups(e echo.Context) error {
 		return fmt.Errorf("Bad database session")
 	}
 
+	// uuid, err := uuid.FromString(e.QueryParam("siteUuid"))
+	// if err != nil {
+	// 	return fmt.Errorf("Bad parameters")
+	// }
+
 	g := models.Groups{}
 	err := db.C("Groups").Find(nil).All(&g.Groups)
 	if err != nil {

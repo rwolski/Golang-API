@@ -17,6 +17,7 @@ func RegisterBillingEndpoints(e *echo.Echo) {
 	b := e.Group("/billing")
 	b.POST("/account", saveAccount)
 	b.GET("/account", getAccount)
+	b.GET("/accounts", getAccounts)
 	b.POST("/event", saveEvent)
 	b.GET("/event", getEvent)
 }
@@ -112,6 +113,25 @@ func getAccount(e echo.Context) error {
 		if err != nil {
 			return err
 		}
+	}
+	return e.JSON(http.StatusOK, a)
+}
+
+func getAccounts(e echo.Context) error {
+	db := e.Get("database").(*mgo.Database)
+	if db == nil {
+		return fmt.Errorf("Bad database session")
+	}
+
+	uuid, err := uuid.FromString(e.QueryParam("siteUuid"))
+	if err != nil {
+		return fmt.Errorf("Bad parameters")
+	}
+
+	a := models.BillingAccounts{}
+	err = db.C("BillingAccounts").Find(bson.M{"billingSiteUuid": uuid}).All(&a.Accounts)
+	if err != nil {
+		return e.NoContent(http.StatusNotFound)
 	}
 	return e.JSON(http.StatusOK, a)
 }

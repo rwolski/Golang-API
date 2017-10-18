@@ -99,8 +99,13 @@ func getAdmins(e echo.Context) error {
 		return fmt.Errorf("Bad database session")
 	}
 
+	uuid, err := uuid.FromString(e.QueryParam("siteUuid"))
+	if err != nil {
+		return fmt.Errorf("Bad parameters")
+	}
+
 	a := models.Admins{}
-	err := db.C("Admins").Find(nil).All(&a.Admins)
+	err = db.C("Admins").Find(bson.M{"adminSiteUuid": uuid}).All(&a.Admins)
 	if err != nil {
 		return e.NoContent(http.StatusNotFound)
 	}
