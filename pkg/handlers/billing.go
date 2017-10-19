@@ -59,6 +59,11 @@ func saveAccount(e echo.Context) error {
 			a.BillingAccountID = bson.NewObjectId()
 		}
 
+		// Default to 20 credits if master admin (so 1 trial account per system only)
+		if a.TrialAccount {
+			a.BillingCredits = 20
+		}
+
 		fmt.Printf("New billing account: %+v", a)
 
 		err = db.C("BillingAccounts").Insert(&a)

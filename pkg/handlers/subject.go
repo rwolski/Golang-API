@@ -104,7 +104,10 @@ func getSubjects(e echo.Context) error {
 		return fmt.Errorf("Bad parameters")
 	}
 
-	s := models.Subjects{}
+	s := models.Subjects{
+		Subjects: []models.Subject{},
+	}
+
 	err = db.C("Subjects").Find(bson.M{"subjectSiteUuid": uuid}).All(&s.Subjects)
 	if err != nil {
 		return e.NoContent(http.StatusNotFound)

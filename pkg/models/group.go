@@ -15,11 +15,9 @@ type Group struct {
 	GroupActive          bool          `json:"groupActive" bson:"groupActive"`
 	LocalUpdateDateTime  time.Time     `json:"localUpdateDateTime" bson:"-"`
 	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime" bson:"serverUpdateDateTime"`
-
-	//LocalUpdateDateTime  time.Time     `json:"lastLocalUpdateDateTime" bson:"lastLocalUpdateDateTime"`
 }
 
 // Groups is a collection of groups
 type Groups struct {
-	Groups []*Group
+	Groups []Group
 }

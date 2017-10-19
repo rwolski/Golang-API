@@ -14,6 +14,7 @@ type BillingAccount struct {
 	BillingAdminUUID     uuid.UUID     `json:"billingAdminUuid" bson:"billingAdminUuid"`
 	BillingCredits       int           `json:"billingCredits,omitempty" bson:"billingCredits"`
 	BillingSiteUUID      uuid.UUID     `json:"billingSiteUuid" bson:"billingSiteUuid"`
+	TrialAccount         bool          `json:"trialAccount" bson:"-"`
 	LocalUpdateDateTime  time.Time     `json:"localUpdateDateTime" bson:"-"`
 	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime,omitempty" bson:"serverUpdateDateTime"`
 }

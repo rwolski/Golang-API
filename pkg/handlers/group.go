@@ -106,7 +106,10 @@ func getGroups(e echo.Context) error {
 	// 	return fmt.Errorf("Bad parameters")
 	// }
 
-	g := models.Groups{}
+	g := models.Groups{
+		Groups: []models.Group{},
+	}
+
 	err := db.C("Groups").Find(nil).All(&g.Groups)
 	if err != nil {
 		return e.NoContent(http.StatusNotFound)

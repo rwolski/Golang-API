@@ -104,7 +104,10 @@ func getAdmins(e echo.Context) error {
 		return fmt.Errorf("Bad parameters")
 	}
 
-	a := models.Admins{}
+	a := models.Admins{
+		Admins: []models.Admin{},
+	}
+
 	err = db.C("Admins").Find(bson.M{"adminSiteUuid": uuid}).All(&a.Admins)
 	if err != nil {
 		return e.NoContent(http.StatusNotFound)
