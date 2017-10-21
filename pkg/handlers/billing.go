@@ -152,9 +152,16 @@ func saveEvent(e echo.Context) error {
 	if err != nil {
 		return err
 	}
+
+	// Check billing credits first
+	// and return if not enough
+
+	// Start test event
 	if a.SessionStatus == 1 && a.ServerStartDateTime.IsZero() {
 		a.ServerStartDateTime = time.Now().UTC()
 	}
+
+	// Finish test event
 	if a.SessionStatus == 2 && a.ServerEndDateTime.IsZero() {
 		a.ServerEndDateTime = time.Now().UTC()
 	}

@@ -13,7 +13,7 @@ type ChoiceMazeTest struct {
 	TestUUID             uuid.UUID     `json:"testUuid" bson:"testUuid"`
 	TestSessionUUID      uuid.UUID     `json:"testSessionUuid" bson:"testSessionUuid"`
 	TestNumber           int           `json:"testNumber" bson:"testNumber"`
-	TestMap              []byte        `json:"testMap" bson:"testMap"`
+	TestMap              string        `json:"testMap" bson:"testMap"`
 	TestScreen           string        `json:"testScreen" bson:"testScreen"`
 	TestData             []byte        `json:"testData" bson:"testData"`
 	TestDifficulty       int           `json:"testDifficulty" bson:"testDifficulty"`
@@ -28,6 +28,6 @@ type ChoiceMazeTest struct {
 	TestMaxInput         float32       `json:"testMaxInput" bson:"testMaxInput"`
 	TestMinCollisionTime float32       `json:"testMedianInputTime" bson:"testMedianInputTime"`
 	TestMaxCollisionTime float32       `json:"testDeviationInputTime" bson:"testDeviationInputTime"`
-	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime" bson:"serverUpdateDateTime"`
+	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime,omitempty" bson:"serverUpdateDateTime"`
 	//LocalUpdateDateTime  time.Time     `json:"lastLocalUpdateDateTime" bson:"lastLocalUpdateDateTime"`
 }

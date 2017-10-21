@@ -34,7 +34,7 @@ func saveStandardSession(e echo.Context) error {
 	err = db.C("ChoiceSessions").Find(bson.M{"sessionUuid": s.SessionUUID}).One(&existing)
 
 	if err == nil {
-		return e.NoContent(http.StatusBadRequest)
+		return e.NoContent(http.StatusConflict)
 	}
 
 	if s.SessionID == "" {
@@ -59,6 +59,7 @@ func saveStandardSession(e echo.Context) error {
 }
 
 func saveStandardData(db *mgo.Database, tests []models.ChoiceTest) error {
+
 	models := make([]interface{}, len(tests))
 	for i := 0; i < len(tests); i++ {
 		tests[i].TestID = bson.NewObjectId()
@@ -66,7 +67,7 @@ func saveStandardData(db *mgo.Database, tests []models.ChoiceTest) error {
 		models[i] = tests[i]
 	}
 
-	err := db.C("ChoiceStandardTests").Insert(models)
+	err := db.C("ChoiceStandardTests").Insert(models...)
 	if err != nil {
 		return err
 	}
@@ -81,7 +82,7 @@ func saveRecallData(db *mgo.Database, tests []models.ChoiceTest) error {
 		models[i] = tests[i]
 	}
 
-	err := db.C("ChoiceRecallTests").Insert(models)
+	err := db.C("ChoiceRecallTests").Insert(models...)
 	if err != nil {
 		return err
 	}

@@ -18,7 +18,7 @@ type ChoiceSession struct {
 	SessionUserUUID      uuid.UUID     `json:"sessionUserUuid" bson:"sessionUserUuid"`
 	SessionAdminUUID     uuid.UUID     `json:"sessionAdminUuid" bson:"sessionAdminUuid"`
 	SessionSiteUUID      uuid.UUID     `json:"sessionSiteUuid" bson:"sessionSiteUuid"`
-	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime" bson:"serverUpdateDateTime"`
+	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime,omitempty" bson:"serverUpdateDateTime"`
 	//LocalUpdateDateTime  time.Time     `json:"lastLocalUpdateDateTime" bson:"lastLocalUpdateDateTime"`
 }
 

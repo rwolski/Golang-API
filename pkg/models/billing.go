@@ -23,8 +23,8 @@ type BillingAccount struct {
 type BillingEvent struct {
 	BillingEventID      bson.ObjectId `json:"billingEventId" bson:"_id"`
 	BillingEventUUID    uuid.UUID     `json:"billingEventUuid" bson:"billingEventUuid"`
-	BillingAccountUUID  bson.ObjectId `json:"billingAccountUuid" bson:"billingAccountUuid"`
-	SessionID           uuid.UUID     `json:"sessionId" bson:"sessionId"`
+	BillingAccountUUID  uuid.UUID     `json:"billingAccountUuid" bson:"billingAccountUuid"`
+	SessionUUID         uuid.UUID     `json:"sessionUuid" bson:"sessionUuid"`
 	SessionType         int           `json:"sessionType" bson:"sessionType"`
 	SessionStatus       int           `json:"sessionStatus" bson:"sessionStatus"`
 	LocalStartDateTime  time.Time     `json:"localStartDateTime" bson:"localStartDateTime"`

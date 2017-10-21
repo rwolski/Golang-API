@@ -34,7 +34,7 @@ func saveMazeSession(e echo.Context) error {
 	err = db.C("ChoiceSessions").Find(bson.M{"sessionUuid": s.SessionUUID}).One(&existing)
 
 	if err == nil {
-		return e.NoContent(http.StatusBadRequest)
+		return e.NoContent(http.StatusConflict)
 	}
 
 	if s.SessionID == "" {
@@ -62,7 +62,7 @@ func saveMazeData(db *mgo.Database, tests []models.ChoiceMazeTest) error {
 		models[i] = tests[i]
 	}
 
-	err := db.C("ChoiceMazeTests").Insert(models)
+	err := db.C("ChoiceMazeTests").Insert(models...)
 	if err != nil {
 		return err
 	}
