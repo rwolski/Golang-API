@@ -147,35 +147,51 @@ func saveEvent(e echo.Context) error {
 		return fmt.Errorf("Bad database session")
 	}
 
-	a := models.BillingEvent{}
-	err := e.Bind(&a)
+	b := models.BillingEvent{}
+	err := e.Bind(&b)
 	if err != nil {
 		return err
 	}
 
 	// Check billing credits first
-	// and return if not enough
+	// and reject if not enough
+	a := models.BillingAccount{}
+	err = db.C("BillingAccounts").Find(bson.M{"billingAccountUuid": b.BillingAccountUUID}).One(&a)
+	if err != nil {
+		b.SessionStatus = models.SessionRejected
+		return e.JSON(http.StatusUnauthorized, b)
+	}
+
+	eventCharge := 0 // change this to reflect cost per test type
+	// if b.SessionType == 0 {
+	// 	eventCharge = 10
+	// }
+
+	if a.BillingCredits-eventCharge < 0 {
+		b.SessionStatus = models.SessionRejected
+		return e.JSON(http.StatusUnauthorized, b)
+	}
 
 	// Start test event
-	if a.SessionStatus == 1 && a.ServerStartDateTime.IsZero() {
-		a.ServerStartDateTime = time.Now().UTC()
+	if b.SessionStatus == models.SessionStarted && b.ServerStartDateTime.IsZero() {
+		b.ServerStartDateTime = time.Now().UTC()
 	}
 
 	// Finish test event
-	if a.SessionStatus == 2 && a.ServerEndDateTime.IsZero() {
-		a.ServerEndDateTime = time.Now().UTC()
+	if b.SessionStatus == models.SessionCompleted && b.ServerEndDateTime.IsZero() {
+		b.ServerEndDateTime = time.Now().UTC()
 	}
 
-	if a.BillingEventID == "" {
-		a.BillingEventID = bson.NewObjectId()
+	if b.BillingEventID == "" {
+		b.BillingEventID = bson.NewObjectId()
 	}
 
-	_, err = db.C("BillingEvents").Upsert(bson.M{"billingEventUuid": a.BillingEventUUID}, &a)
+	_, err = db.C("BillingEvents").Upsert(bson.M{"billingEventUuid": b.BillingEventUUID}, &b)
 	if err != nil {
 		return err
 	}
 
-	return e.JSON(http.StatusOK, a)
+	return e.JSON(http.StatusOK, b)
 }
 
 func getEvent(e echo.Context) error {

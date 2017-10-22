@@ -7,6 +7,13 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+const (
+	_                = iota
+	SessionStarted   = iota
+	SessionCompleted = iota
+	SessionRejected  = iota
+)
+
 // BillingAccount model
 type BillingAccount struct {
 	BillingAccountID     bson.ObjectId `json:"billingAccountId" bson:"_id"`

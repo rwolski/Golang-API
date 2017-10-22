@@ -11,27 +11,27 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-// RegisterChoiceMazeTestEndpoints API registration
-func RegisterChoiceMazeTestEndpoints(e *echo.Echo) {
-	e.POST("/choice/test/maze", saveMazeSession)
-	//e.GET("/choice/test/maze", getMazeSession)
+// RegisterBalanceStandardTestEndpoints API registration
+func RegisterBalanceStandardTestEndpoints(e *echo.Echo) {
+	e.POST("/balance/test/standard", saveBalanceStandardSession)
+	//e.GET("/choice/test/standard", getStandardSession)
 }
 
-func saveMazeSession(e echo.Context) error {
+func saveBalanceStandardSession(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
 		return fmt.Errorf("Bad database session")
 	}
 
-	s := models.ChoiceMazeSession{}
+	s := models.BalanceStandardSession{}
 	err := e.Bind(&s)
 	if err != nil {
 		return err
 	}
 	s.ServerUpdateDateTime = time.Now().UTC()
 
-	existing := models.ChoiceSession{}
-	err = db.C("ChoiceSessions").Find(bson.M{"sessionUuid": s.SessionUUID}).One(&existing)
+	existing := models.BalanceSession{}
+	err = db.C("BalanceSessions").Find(bson.M{"sessionUuid": s.SessionUUID}).One(&existing)
 
 	if err == nil {
 		return e.NoContent(http.StatusConflict)
@@ -41,12 +41,12 @@ func saveMazeSession(e echo.Context) error {
 		s.SessionID = bson.NewObjectId()
 	}
 
-	err = db.C("ChoiceSessions").Insert(&s.ChoiceSession)
+	err = db.C("BalanceSessions").Insert(&s.BalanceSession)
 	if err != nil {
 		return err
 	}
 
-	err = saveChoiceMazeData(db, s.Tests)
+	err = saveBalanceStandardData(db, s.Tests)
 	if err != nil {
 		return err
 	}
@@ -54,7 +54,7 @@ func saveMazeSession(e echo.Context) error {
 	return e.JSON(http.StatusOK, s)
 }
 
-func saveChoiceMazeData(db *mgo.Database, tests []models.ChoiceMazeTest) error {
+func saveBalanceStandardData(db *mgo.Database, tests []models.BalanceStandardTest) error {
 	models := make([]interface{}, len(tests))
 	for i := 0; i < len(tests); i++ {
 		tests[i].TestID = bson.NewObjectId()
@@ -62,14 +62,14 @@ func saveChoiceMazeData(db *mgo.Database, tests []models.ChoiceMazeTest) error {
 		models[i] = tests[i]
 	}
 
-	err := db.C("ChoiceMazeTests").Insert(models...)
+	err := db.C("BalanceStandardTests").Insert(models...)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-// func getMazeSession(e echo.Context) error {
+// func getStandardSession(e echo.Context) error {
 // 	db := e.Get("database").(*mgo.Database)
 // 	if db == nil {
 // 		return fmt.Errorf("Bad database session")

@@ -13,11 +13,11 @@ import (
 
 // RegisterChoiceStandardTestEndpoints API registration
 func RegisterChoiceStandardTestEndpoints(e *echo.Echo) {
-	e.POST("/choice/test/standard", saveStandardSession)
+	e.POST("/choice/test/standard", saveChoiceStandardSession)
 	//e.GET("/choice/test/standard", getStandardSession)
 }
 
-func saveStandardSession(e echo.Context) error {
+func saveChoiceStandardSession(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
 		return fmt.Errorf("Bad database session")
@@ -46,11 +46,11 @@ func saveStandardSession(e echo.Context) error {
 		return err
 	}
 
-	err = saveStandardData(db, s.Tests)
+	err = saveChoiceStandardData(db, s.Tests)
 	if err != nil {
 		return err
 	}
-	err = saveRecallData(db, s.Recall)
+	err = saveChoiceRecallData(db, s.Recall)
 	if err != nil {
 		return err
 	}
@@ -58,7 +58,7 @@ func saveStandardSession(e echo.Context) error {
 	return e.JSON(http.StatusOK, s)
 }
 
-func saveStandardData(db *mgo.Database, tests []models.ChoiceTest) error {
+func saveChoiceStandardData(db *mgo.Database, tests []models.ChoiceTest) error {
 
 	models := make([]interface{}, len(tests))
 	for i := 0; i < len(tests); i++ {
@@ -74,7 +74,7 @@ func saveStandardData(db *mgo.Database, tests []models.ChoiceTest) error {
 	return nil
 }
 
-func saveRecallData(db *mgo.Database, tests []models.ChoiceTest) error {
+func saveChoiceRecallData(db *mgo.Database, tests []models.ChoiceTest) error {
 	models := make([]interface{}, len(tests))
 	for i := 0; i < len(tests); i++ {
 		tests[i].TestID = bson.NewObjectId()
