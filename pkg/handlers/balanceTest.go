@@ -46,7 +46,27 @@ func saveBalanceStandardSession(e echo.Context) error {
 		return err
 	}
 
-	err = saveBalanceStandardData(db, s.Tests)
+	err = saveBalanceStandardData(db, s.BalanceTests)
+	if err != nil {
+		return err
+	}
+
+	err = saveBalancePathData(db, s.PathTests)
+	if err != nil {
+		return err
+	}
+
+	err = saveBalanceSpellData(db, s.SpellTests)
+	if err != nil {
+		return err
+	}
+
+	err = saveBalanceLosData(db, s.LosTests)
+	if err != nil {
+		return err
+	}
+
+	err = saveChoiceTests(db, s.ChoiceTests)
 	if err != nil {
 		return err
 	}
@@ -55,6 +75,10 @@ func saveBalanceStandardSession(e echo.Context) error {
 }
 
 func saveBalanceStandardData(db *mgo.Database, tests []models.BalanceStandardTest) error {
+	if tests == nil || len(tests) == 0 {
+		return nil
+	}
+
 	models := make([]interface{}, len(tests))
 	for i := 0; i < len(tests); i++ {
 		tests[i].TestID = bson.NewObjectId()
@@ -63,6 +87,82 @@ func saveBalanceStandardData(db *mgo.Database, tests []models.BalanceStandardTes
 	}
 
 	err := db.C("BalanceStandardTests").Insert(models...)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func saveBalancePathData(db *mgo.Database, tests []models.BalancePathTest) error {
+	if tests == nil || len(tests) == 0 {
+		return nil
+	}
+
+	models := make([]interface{}, len(tests))
+	for i := 0; i < len(tests); i++ {
+		tests[i].TestID = bson.NewObjectId()
+		tests[i].ServerUpdateDateTime = time.Now().UTC()
+		models[i] = tests[i]
+	}
+
+	err := db.C("BalancePathTests").Insert(models...)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func saveBalanceSpellData(db *mgo.Database, tests []models.BalanceSpellTest) error {
+	if tests == nil || len(tests) == 0 {
+		return nil
+	}
+
+	models := make([]interface{}, len(tests))
+	for i := 0; i < len(tests); i++ {
+		tests[i].TestID = bson.NewObjectId()
+		tests[i].ServerUpdateDateTime = time.Now().UTC()
+		models[i] = tests[i]
+	}
+
+	err := db.C("BalanceSpellTests").Insert(models...)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func saveBalanceLosData(db *mgo.Database, tests []models.BalanceLosTest) error {
+	if tests == nil || len(tests) == 0 {
+		return nil
+	}
+
+	models := make([]interface{}, len(tests))
+	for i := 0; i < len(tests); i++ {
+		tests[i].TestID = bson.NewObjectId()
+		tests[i].ServerUpdateDateTime = time.Now().UTC()
+		models[i] = tests[i]
+	}
+
+	err := db.C("BalanceLosTests").Insert(models...)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func saveChoiceTests(db *mgo.Database, tests []models.BalanceChoiceKey) error {
+	if tests == nil || len(tests) == 0 {
+		return nil
+	}
+
+	models := make([]interface{}, len(tests))
+	for i := 0; i < len(tests); i++ {
+		tests[i].TestID = bson.NewObjectId()
+		tests[i].ServerUpdateDateTime = time.Now().UTC()
+		models[i] = tests[i]
+	}
+
+	err := db.C("BalanceCognitiveTests").Insert(models...)
 	if err != nil {
 		return err
 	}

@@ -30,26 +30,10 @@ type BalanceSession struct {
 type BalanceStandardSession struct {
 	BalanceSession
 
-	Tests []BalanceStandardTest
-}
+	BalanceTests []BalanceStandardTest
+	PathTests    []BalancePathTest
+	SpellTests   []BalanceSpellTest
+	LosTests     []BalanceLosTest
 
-// BalancePathSession std session
-type BalancePathSession struct {
-	BalanceSession
-
-	Tests []BalancePathTest
-}
-
-// BalanceSpellSession std session
-type BalanceSpellSession struct {
-	BalanceSession
-
-	Tests []BalanceSpellTest
-}
-
-// BalanceLosSession std session
-type BalanceLosSession struct {
-	BalanceSession
-
-	Tests []BalanceLosTest
+	ChoiceTests []BalanceChoiceKey
 }
