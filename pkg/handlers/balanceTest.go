@@ -28,6 +28,7 @@ func saveBalanceStandardSession(e echo.Context) error {
 	if err != nil {
 		return err
 	}
+	fmt.Println(&s)
 	s.ServerUpdateDateTime = time.Now().UTC()
 
 	existing := models.BalanceSession{}
@@ -150,7 +151,7 @@ func saveBalanceLosData(db *mgo.Database, tests []models.BalanceLosTest) error {
 	return nil
 }
 
-func saveChoiceTests(db *mgo.Database, tests []models.BalanceChoiceKey) error {
+func saveChoiceTests(db *mgo.Database, tests []models.BalanceCognitiveTest) error {
 	if tests == nil || len(tests) == 0 {
 		return nil
 	}

@@ -7,7 +7,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BalanceCognitiveTests struct {
+type BalanceCognitiveTest struct {
 	TestID               bson.ObjectId
 	BalanceSessionUUID   uuid.UUID
 	ChoiceSessionUUID    uuid.UUID

@@ -35,5 +35,5 @@ type BalanceStandardSession struct {
 	SpellTests   []BalanceSpellTest
 	LosTests     []BalanceLosTest
 
-	ChoiceTests []BalanceChoiceKey
+	ChoiceTests []BalanceCognitiveTest
 }

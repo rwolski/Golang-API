@@ -16,7 +16,6 @@ type BalancePathTest struct {
 	TestType             string
 	TestIndex            int
 	TestResource         string
-	TestParameters       string
 	TestOrientation      string
 	TestLength           float32
 	TestAvgCogD          float32
@@ -30,10 +29,10 @@ type BalancePathTest struct {
 	TestSway             float64
 	TestNotes            string
 	TestDataPrecision    int
-	TestRawDataSize      int
 	TestRawData          []byte
-	TestCopSize          int
+	TestRawDataSize      int
 	TestCopData          []byte
+	TestCopDataSize      int
 	TestDeviationX       float32
 	TestDeviationY       float32
 	TestMinX             float32
@@ -46,6 +45,8 @@ type BalancePathTest struct {
 	TestRenyiEntropyD    float32
 	TestRenyiEntropyX    float32
 	TestRenyiEntropyY    float32
+	TestCollisionNum     int
+	TestCollisionTime    float32
 	TestThumbnailData    []byte
 	TestThumbnailSize    int
 	ServerUpdateDateTime time.Time
