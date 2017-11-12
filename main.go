@@ -27,6 +27,8 @@ func main() {
 	handlers.RegisterAdminEndpoints(e)
 	handlers.RegisterSubjectEndpoints(e)
 
+	handlers.RegisterBalanceStandardTestEndpoints(e)
+
 	handlers.RegisterChoiceStandardTestEndpoints(e)
 	handlers.RegisterChoiceMazeTestEndpoints(e)
 
