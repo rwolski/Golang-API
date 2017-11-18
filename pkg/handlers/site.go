@@ -13,7 +13,7 @@ import (
 )
 
 // RegisterSiteEndpoints API registration
-func RegisterSiteEndpoints(e *echo.Echo) {
+func RegisterSiteEndpoints(e *echo.Group) {
 	g := e.Group("/site")
 	g.POST("", saveSite)
 	g.GET("", getSite)
@@ -36,11 +36,11 @@ func saveSite(e echo.Context) error {
 	err = db.C("Sites").Find(bson.M{"siteUuid": s.SiteUUID}).One(&existing)
 
 	if err == nil {
-		fmt.Printf("Found site: %+v", existing)
+		//fmt.Printf("Found site: %+v", existing)
 
 		if existing.ServerUpdateDateTime.After(s.LocalUpdateDateTime) {
 			// Server version is more recent
-			fmt.Printf("Subject is out of date, returning")
+			//fmt.Printf("Subject is out of date, returning")
 			return e.JSON(http.StatusConflict, existing)
 		}
 
@@ -49,14 +49,14 @@ func saveSite(e echo.Context) error {
 		if err != nil {
 			return err
 		}
-		fmt.Printf("Updated site: %+v", s)
+		//fmt.Printf("Updated site: %+v", s)
 	} else {
 
 		if s.SiteID == "" {
 			s.SiteID = bson.NewObjectId()
 		}
 
-		fmt.Printf("New site: %+v", s)
+		//fmt.Printf("New site: %+v", s)
 
 		err = db.C("Sites").Insert(&s)
 		if err != nil {

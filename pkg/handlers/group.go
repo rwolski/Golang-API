@@ -13,7 +13,7 @@ import (
 )
 
 // RegisterGroupEndpoints API registration
-func RegisterGroupEndpoints(e *echo.Echo) {
+func RegisterGroupEndpoints(e *echo.Group) {
 	e.POST("/group", saveGroup)
 	e.GET("/group", getGroup)
 	e.GET("/groups", getGroups)
@@ -36,11 +36,11 @@ func saveGroup(e echo.Context) error {
 	err = db.C("Groups").Find(bson.M{"groupUuid": g.GroupUUID}).One(&existing)
 
 	if err == nil {
-		fmt.Printf("Found group: %+v", existing)
+		//fmt.Printf("Found group: %+v", existing)
 
 		if existing.ServerUpdateDateTime.After(g.LocalUpdateDateTime) {
 			// Server version is more recent
-			fmt.Printf("Group is out of date, returning")
+			//fmt.Printf("Group is out of date, returning")
 			return e.JSON(http.StatusConflict, existing)
 		}
 
@@ -50,14 +50,14 @@ func saveGroup(e echo.Context) error {
 			return err
 		}
 
-		fmt.Printf("Updated group: %+v", g)
+		//fmt.Printf("Updated group: %+v", g)
 	} else {
 
 		if g.GroupID == "" {
 			g.GroupID = bson.NewObjectId()
 		}
 
-		fmt.Printf("New group: %+v", g)
+		//fmt.Printf("New group: %+v", g)
 
 		err = db.C("Groups").Insert(&g)
 		if err != nil {

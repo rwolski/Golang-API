@@ -13,7 +13,7 @@ import (
 )
 
 // RegisterAdminEndpoints API registration
-func RegisterAdminEndpoints(e *echo.Echo) {
+func RegisterAdminEndpoints(e *echo.Group) {
 	e.POST("/admin", saveAdmin)
 	e.GET("/admin", getAdmin)
 	e.GET("/admins", getAdmins)
@@ -36,11 +36,11 @@ func saveAdmin(e echo.Context) error {
 	err = db.C("Admins").Find(bson.M{"adminUuid": a.AdminUUID}).One(&existing)
 
 	if err == nil {
-		fmt.Printf("Found admin: %+v", existing)
+		//fmt.Printf("Found admin: %+v", existing)
 
 		if existing.ServerUpdateDateTime.After(a.LocalUpdateDateTime) {
 			// Server version is more recent
-			fmt.Printf("Admin is out of date, returning")
+			//fmt.Printf("Admin is out of date, returning")
 			return e.JSON(http.StatusConflict, existing)
 		}
 
@@ -49,13 +49,13 @@ func saveAdmin(e echo.Context) error {
 		if err != nil {
 			return err
 		}
-		fmt.Printf("Updated admin: %+v", a)
+		//fmt.Printf("Updated admin: %+v", a)
 	} else {
 		if a.AdminID == "" {
 			a.AdminID = bson.NewObjectId()
 		}
 
-		fmt.Printf("New admin: %+v", a)
+		//fmt.Printf("New admin: %+v", a)
 
 		err = db.C("Admins").Insert(&a)
 		if err != nil {

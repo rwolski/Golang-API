@@ -12,7 +12,7 @@ import (
 )
 
 // RegisterLicenseEndpoints registers endpoints
-func RegisterLicenseEndpoints(e *echo.Echo) {
+func RegisterLicenseEndpoints(e *echo.Group) {
 	g := e.Group("/license")
 	g.POST("", saveLicense)
 	g.GET("", getLicense)

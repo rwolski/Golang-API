@@ -12,7 +12,7 @@ import (
 )
 
 // RegisterChoiceStandardTestEndpoints API registration
-func RegisterChoiceStandardTestEndpoints(e *echo.Echo) {
+func RegisterChoiceStandardTestEndpoints(e *echo.Group) {
 	e.POST("/choice/test/standard", saveChoiceStandardSession)
 	//e.GET("/choice/test/standard", getStandardSession)
 }

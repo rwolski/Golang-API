@@ -12,7 +12,7 @@ import (
 )
 
 // RegisterBalanceStandardTestEndpoints API registration
-func RegisterBalanceStandardTestEndpoints(e *echo.Echo) {
+func RegisterBalanceStandardTestEndpoints(e *echo.Group) {
 	e.POST("/balance/test/standard", saveBalanceStandardSession)
 	//e.GET("/choice/test/standard", getStandardSession)
 }
@@ -28,7 +28,6 @@ func saveBalanceStandardSession(e echo.Context) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(&s)
 	s.ServerUpdateDateTime = time.Now().UTC()
 
 	existing := models.BalanceSession{}

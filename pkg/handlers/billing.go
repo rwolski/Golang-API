@@ -13,7 +13,7 @@ import (
 )
 
 // RegisterBillingEndpoints registers endpoints
-func RegisterBillingEndpoints(e *echo.Echo) {
+func RegisterBillingEndpoints(e *echo.Group) {
 	b := e.Group("/billing")
 	b.POST("/account", saveAccount)
 	b.GET("/account", getAccount)
@@ -39,11 +39,11 @@ func saveAccount(e echo.Context) error {
 	err = db.C("BillingAccounts").Find(bson.M{"billingAccountUuid": a.BillingAccountUUID}).One(&existing)
 
 	if err == nil {
-		fmt.Printf("Found bill account: %+v", existing)
+		//fmt.Printf("Found bill account: %+v", existing)
 
 		if existing.ServerUpdateDateTime.After(a.LocalUpdateDateTime) {
 			// Server version is more recent
-			fmt.Printf("Billing account is out of date, returning")
+			//fmt.Printf("Billing account is out of date, returning")
 			return e.JSON(http.StatusConflict, existing)
 		}
 
@@ -53,7 +53,7 @@ func saveAccount(e echo.Context) error {
 			return err
 		}
 
-		fmt.Printf("Updated billing account: %+v", a)
+		//fmt.Printf("Updated billing account: %+v", a)
 	} else {
 		if a.BillingAccountID == "" {
 			a.BillingAccountID = bson.NewObjectId()
@@ -64,7 +64,7 @@ func saveAccount(e echo.Context) error {
 			a.BillingCredits = 20
 		}
 
-		fmt.Printf("New billing account: %+v", a)
+		//fmt.Printf("New billing account: %+v", a)
 
 		err = db.C("BillingAccounts").Insert(&a)
 		if err != nil {
@@ -99,7 +99,6 @@ func getAccount(e echo.Context) error {
 		err = db.C("BillingAccounts").Find(bson.M{"billingAccountUuid": billingID}).One(&a)
 	}
 	if err != nil {
-		fmt.Println("doesnt exist")
 		// Create a billing account then
 		u := models.Admin{}
 		err = db.C("Admins").Find(bson.M{"adminUuid": adminID}).One(&u)
@@ -159,7 +158,7 @@ func saveEvent(e echo.Context) error {
 	err = db.C("BillingAccounts").Find(bson.M{"billingAccountUuid": b.BillingAccountUUID}).One(&a)
 	if err != nil {
 		b.SessionStatus = models.SessionRejected
-		return e.JSON(http.StatusUnauthorized, b)
+		return e.JSON(http.StatusForbidden, b)
 	}
 
 	eventCharge := 0 // change this to reflect cost per test type
