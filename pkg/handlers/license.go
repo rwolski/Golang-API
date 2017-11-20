@@ -15,8 +15,8 @@ import (
 func RegisterLicenseEndpoints(e *echo.Group) {
 	g := e.Group("/license")
 	g.POST("", saveLicense)
-	g.GET("", getLicense)
-	g.DELETE("/:id", deleteLicense)
+	g.GET("", getLicense, checkSession())
+	g.DELETE("/:id", deleteLicense, checkSession())
 }
 
 func saveLicense(e echo.Context) error {

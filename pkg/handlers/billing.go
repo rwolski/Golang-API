@@ -15,11 +15,11 @@ import (
 // RegisterBillingEndpoints registers endpoints
 func RegisterBillingEndpoints(e *echo.Group) {
 	b := e.Group("/billing")
-	b.POST("/account", saveAccount)
-	b.GET("/account", getAccount)
-	b.GET("/accounts", getAccounts)
-	b.POST("/event", saveEvent)
-	b.GET("/event", getEvent)
+	b.POST("/account", saveAccount, checkSession())
+	b.GET("/account", getAccount, checkSession())
+	b.GET("/accounts", getAccounts, checkSession())
+	b.POST("/event", saveEvent, checkSession())
+	b.GET("/event", getEvent, checkSession())
 }
 
 func saveAccount(e echo.Context) error {

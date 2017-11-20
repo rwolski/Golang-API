@@ -15,8 +15,8 @@ import (
 // RegisterSiteEndpoints API registration
 func RegisterSiteEndpoints(e *echo.Group) {
 	g := e.Group("/site")
-	g.POST("", saveSite)
-	g.GET("", getSite)
+	g.POST("", saveSite, checkSession())
+	g.GET("", getSite, checkSession())
 }
 
 func saveSite(e echo.Context) error {

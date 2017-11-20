@@ -13,7 +13,7 @@ import (
 
 // RegisterBalanceStandardTestEndpoints API registration
 func RegisterBalanceStandardTestEndpoints(e *echo.Group) {
-	e.POST("/balance/test/standard", saveBalanceStandardSession)
+	e.POST("/balance/test/standard", saveBalanceStandardSession, checkSession())
 	//e.GET("/choice/test/standard", getStandardSession)
 }
 

@@ -1,16 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"isogate/pkg/handlers"
-	"isogate/pkg/models"
 	"log"
-	"net/http"
-	"time"
 
 	"github.com/labstack/echo"
 	mgo "gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
 )
 
 func main() {
@@ -24,8 +19,8 @@ func main() {
 	e := echo.New()
 	e.Use(attachMongoContext(db))
 
-	session := e.Group("/session")
-	api := e.Group("/api", checkSession())
+	session := e.Group("/user")
+	api := e.Group("") //, checkSession())
 
 	handlers.RegisterSessionEndpoints(session)
 
@@ -54,38 +49,6 @@ func attachMongoContext(db *mgo.Session) echo.MiddlewareFunc {
 			db := s.DB("IsoGate")
 
 			e.Set("database", db)
-			if err := next(e); err != nil {
-				e.Error(err)
-			}
-			return nil
-		}
-	}
-}
-
-func checkSession() echo.MiddlewareFunc {
-	return func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(e echo.Context) error {
-			db := e.Get("database").(*mgo.Database)
-			if db == nil {
-				return fmt.Errorf("Bad database session")
-			}
-
-			token := e.Request().Header.Get("X-CSRF-Token")
-			if token == "" {
-				return e.String(http.StatusUnauthorized, "No token provided")
-			}
-
-			existing := models.Session{}
-			err := db.C("Sessions").Find(bson.M{"token": token}).One(&existing)
-			if err != nil {
-				return e.String(http.StatusUnauthorized, "Incorrect token provided")
-			}
-
-			currentTime := time.Now().UTC()
-			if currentTime.After(existing.ExpiryDateTime) {
-				return e.String(http.StatusUnauthorized, "Token has expired")
-			}
-
 			if err := next(e); err != nil {
 				e.Error(err)
 			}

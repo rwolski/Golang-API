@@ -17,8 +17,13 @@ import (
 // RegisterSessionEndpoints registers session endpoints
 func RegisterSessionEndpoints(e *echo.Group) {
 	e.POST("/signup", signup)
+	//e.POST("/token", getToken)
 	e.POST("/login", login)
 	e.POST("/logout", logout)
+}
+
+func getToken(e echo.Context) error {
+	return e.String(http.StatusOK, uuid.NewV4().String())
 }
 
 func signup(e echo.Context) error {
@@ -124,4 +129,36 @@ func logout(e echo.Context) error {
 	}
 
 	return e.NoContent(http.StatusOK)
+}
+
+func checkSession() echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(e echo.Context) error {
+			db := e.Get("database").(*mgo.Database)
+			if db == nil {
+				return fmt.Errorf("Bad database session")
+			}
+
+			token := e.Request().Header.Get("X-CSRF-Token")
+			if token == "" {
+				return e.String(http.StatusUnauthorized, "No token provided")
+			}
+
+			existing := models.Session{}
+			err := db.C("Sessions").Find(bson.M{"token": token}).One(&existing)
+			if err != nil {
+				return e.String(http.StatusUnauthorized, "Incorrect token provided")
+			}
+
+			currentTime := time.Now().UTC()
+			if currentTime.After(existing.ExpiryDateTime) {
+				return e.JSON(http.StatusUnauthorized, existing)
+			}
+
+			if err := next(e); err != nil {
+				e.Error(err)
+			}
+			return nil
+		}
+	}
 }

@@ -14,9 +14,9 @@ import (
 
 // RegisterGroupEndpoints API registration
 func RegisterGroupEndpoints(e *echo.Group) {
-	e.POST("/group", saveGroup)
-	e.GET("/group", getGroup)
-	e.GET("/groups", getGroups)
+	e.POST("/group", saveGroup, checkSession())
+	e.GET("/group", getGroup, checkSession())
+	e.GET("/groups", getGroups, checkSession())
 }
 
 func saveGroup(e echo.Context) error {

@@ -24,7 +24,7 @@ type Session struct {
 }
 
 type Account struct {
-	ID       bson.ObjectId
+	ID       bson.ObjectId `json:"-"`
 	Username string
 	Password string
 }

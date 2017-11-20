@@ -14,9 +14,9 @@ import (
 
 // RegisterAdminEndpoints API registration
 func RegisterAdminEndpoints(e *echo.Group) {
-	e.POST("/admin", saveAdmin)
-	e.GET("/admin", getAdmin)
-	e.GET("/admins", getAdmins)
+	e.POST("/admin", saveAdmin, checkSession())
+	e.GET("/admin", getAdmin, checkSession())
+	e.GET("/admins", getAdmins, checkSession())
 }
 
 func saveAdmin(e echo.Context) error {

@@ -13,7 +13,7 @@ import (
 
 // RegisterChoiceMazeTestEndpoints API registration
 func RegisterChoiceMazeTestEndpoints(e *echo.Group) {
-	e.POST("/choice/test/maze", saveMazeSession)
+	e.POST("/choice/test/maze", saveMazeSession, checkSession())
 	//e.GET("/choice/test/maze", getMazeSession)
 }
 

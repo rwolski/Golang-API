@@ -14,9 +14,9 @@ import (
 
 // RegisterSubjectEndpoints API registration
 func RegisterSubjectEndpoints(e *echo.Group) {
-	e.POST("/subject", saveSubject)
-	e.GET("/subject", getSubject)
-	e.GET("/subjects", getSubjects)
+	e.POST("/subject", saveSubject, checkSession())
+	e.GET("/subject", getSubject, checkSession())
+	e.GET("/subjects", getSubjects, checkSession())
 }
 
 func saveSubject(e echo.Context) error {
