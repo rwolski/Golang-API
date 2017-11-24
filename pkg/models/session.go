@@ -10,17 +10,15 @@ const (
 	SessionExpiry time.Duration = 30 * time.Minute
 )
 
-type TokenResponse struct {
-	Token string
-}
-
-type Session struct {
+// SessionToken model
+// swagger:response SessionTokenResponse
+type SessionToken struct {
 	ID              bson.ObjectId `json:"-"`
 	Username        string
 	Token           string
 	CreatedDateTime time.Time
 	ExpiryDateTime  time.Time
-	Values          []interface{} `json:",omitempty"`
+	//Values          []interface{} `json:",omitempty"`
 }
 
 type Account struct {

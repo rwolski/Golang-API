@@ -1,0 +1,798 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "title": "IsoGate prototype.",
+    "version": "1.0"
+  },
+  "paths": {
+    "/admin": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Gets a site admin account.",
+        "operationId": "GetAdmin",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/AdminResponse"
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Creates or updates a site admin account.",
+        "operationId": "SaveAdmin",
+        "responses": {}
+      }
+    },
+    "/admins": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Gets all admin accounts for a given Site UUID.",
+        "operationId": "GetAdmins",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/AdminsResponse"
+          }
+        }
+      }
+    },
+    "/group": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Gets a subject group by it's UUID.",
+        "operationId": "GetGroup",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GroupResponse"
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Creates or updates a subject group.",
+        "operationId": "SaveGroup",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GroupResponse"
+          }
+        }
+      }
+    },
+    "/groups": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Gets all subject groups for a given Site UUID.",
+        "operationId": "GetGroups",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GroupsResponse"
+          }
+        }
+      }
+    },
+    "/license": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Gets a product license by it's UUID.",
+        "operationId": "GetLicense",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LicenseResponse"
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Activates a product license for a given product and machine.",
+        "operationId": "SaveLicense",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LicenseResponse"
+          }
+        }
+      },
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Deletes a product license by it's UUID.",
+        "operationId": "DeleteLicense",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Ok"
+          }
+        }
+      }
+    },
+    "/site": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Retrieves an existing test site.",
+        "operationId": "GetSite",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SiteResponse"
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Creates or updates a test site.",
+        "operationId": "SaveSite",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SiteResponse"
+          }
+        }
+      }
+    },
+    "/subject": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Get a specific subject by it's UUID.",
+        "operationId": "GetSubject",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SubjectResponse"
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Creates or updates a subject record.",
+        "operationId": "SaveSubject",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SubjectResponse"
+          }
+        }
+      }
+    },
+    "/subjects": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Gets all subjects for a given Site UUID.",
+        "operationId": "GetSubjects",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SubjectsResponse"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Starts a new authenticated session for a company account.",
+        "operationId": "Login",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SessionTokenResponse"
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Destroys an existing account session.",
+        "operationId": "Logout",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Ok"
+          }
+        }
+      }
+    },
+    "/users/signup": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http",
+          "https"
+        ],
+        "summary": "Creates a new isogate company account.",
+        "operationId": "Signup",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Ok"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Admin": {
+      "description": "Admin model",
+      "type": "object",
+      "properties": {
+        "adminActive": {
+          "type": "boolean",
+          "x-go-name": "AdminActive"
+        },
+        "adminCreationDate": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "AdminCreationDate"
+        },
+        "adminEmail": {
+          "type": "string",
+          "x-go-name": "AdminEmail"
+        },
+        "adminID": {
+          "$ref": "#/definitions/ObjectId"
+        },
+        "adminLoginName": {
+          "type": "string",
+          "x-go-name": "AdminLoginName"
+        },
+        "adminPassword": {
+          "type": "string",
+          "x-go-name": "AdminPassword"
+        },
+        "adminPasswordDate": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "AdminPasswordDate"
+        },
+        "adminSiteUuid": {
+          "$ref": "#/definitions/UUID"
+        },
+        "adminStatus": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "AdminStatus"
+        },
+        "adminUuid": {
+          "$ref": "#/definitions/UUID"
+        },
+        "localUpdateDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "LocalUpdateDateTime"
+        },
+        "serverUpdateDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "ServerUpdateDateTime"
+        }
+      },
+      "x-go-package": "isogate/pkg/models"
+    },
+    "Group": {
+      "description": "Group model",
+      "type": "object",
+      "properties": {
+        "groupActive": {
+          "type": "boolean",
+          "x-go-name": "GroupActive"
+        },
+        "groupId": {
+          "$ref": "#/definitions/ObjectId"
+        },
+        "groupName": {
+          "type": "string",
+          "x-go-name": "GroupName"
+        },
+        "groupUuid": {
+          "$ref": "#/definitions/UUID"
+        },
+        "localUpdateDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "LocalUpdateDateTime"
+        },
+        "serverUpdateDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "ServerUpdateDateTime"
+        }
+      },
+      "x-go-package": "isogate/pkg/models"
+    },
+    "ObjectId": {
+      "description": "http://www.mongodb.org/display/DOCS/Object+IDs",
+      "type": "string",
+      "title": "ObjectId is a unique ID identifying a BSON value. It must be exactly 12 bytes\nlong. MongoDB objects by default have such a property set in their \"_id\"\nproperty.",
+      "x-go-package": "isogate/vendor/gopkg.in/mgo.v2/bson"
+    },
+    "Subject": {
+      "description": "Subject model",
+      "type": "object",
+      "properties": {
+        "localUpdateDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "LocalUpdateDateTime"
+        },
+        "serverUpdateDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "ServerUpdateDateTime"
+        },
+        "subjectActive": {
+          "type": "boolean",
+          "x-go-name": "SubjectActive"
+        },
+        "subjectAdditionalId": {
+          "type": "string",
+          "x-go-name": "SubjectAdditionalID"
+        },
+        "subjectAdditionalId2": {
+          "type": "string",
+          "x-go-name": "SubjectAdditionalID2"
+        },
+        "subjectAddress": {
+          "type": "string",
+          "x-go-name": "SubjectAddress"
+        },
+        "subjectCreationDate": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "SubjectCreationDate"
+        },
+        "subjectDob": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "SubjectDob"
+        },
+        "subjectEmail": {
+          "type": "string",
+          "x-go-name": "SubjectEmail"
+        },
+        "subjectEthnicity": {
+          "type": "string",
+          "x-go-name": "SubjectEthnicity"
+        },
+        "subjectFirstName": {
+          "type": "string",
+          "x-go-name": "SubjectFirstName"
+        },
+        "subjectGender": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "SubjectGender"
+        },
+        "subjectGroupUuid": {
+          "$ref": "#/definitions/UUID"
+        },
+        "subjectHeight": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "SubjectHeight"
+        },
+        "subjectId": {
+          "$ref": "#/definitions/ObjectId"
+        },
+        "subjectLastName": {
+          "type": "string",
+          "x-go-name": "SubjectLastName"
+        },
+        "subjectPhoneNumber": {
+          "type": "string",
+          "x-go-name": "SubjectPhoneNumber"
+        },
+        "subjectSiteUuid": {
+          "$ref": "#/definitions/UUID"
+        },
+        "subjectStatus": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "SubjectStatus"
+        },
+        "subjectUserName": {
+          "type": "string",
+          "x-go-name": "SubjectUserName"
+        },
+        "subjectUuid": {
+          "$ref": "#/definitions/UUID"
+        }
+      },
+      "x-go-package": "isogate/pkg/models"
+    },
+    "UUID": {
+      "description": "UUID representation compliant with specification\ndescribed in RFC 4122.",
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "uint8"
+      },
+      "x-go-package": "isogate/vendor/github.com/satori/go.uuid"
+    }
+  },
+  "responses": {
+    "AdminResponse": {
+      "description": "Admin model",
+      "schema": {
+        "$ref": "#/definitions/UUID"
+      },
+      "headers": {
+        "adminActive": {
+          "type": "boolean"
+        },
+        "adminCreationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "adminEmail": {
+          "type": "string"
+        },
+        "adminID": {},
+        "adminLoginName": {
+          "type": "string"
+        },
+        "adminPassword": {
+          "type": "string"
+        },
+        "adminPasswordDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "adminSiteUuid": {},
+        "adminStatus": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "adminUuid": {},
+        "localUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "AdminsResponse": {
+      "description": "Admins is a collection of Admins",
+      "headers": {
+        "Admins": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Admin"
+          }
+        }
+      }
+    },
+    "GroupResponse": {
+      "description": "Group model",
+      "schema": {
+        "$ref": "#/definitions/UUID"
+      },
+      "headers": {
+        "groupActive": {
+          "type": "boolean"
+        },
+        "groupId": {},
+        "groupName": {
+          "type": "string"
+        },
+        "groupUuid": {},
+        "localUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "GroupsResponse": {
+      "description": "Groups is a collection of groups",
+      "headers": {
+        "Groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Group"
+          }
+        }
+      }
+    },
+    "LicenseResponse": {
+      "description": "License model",
+      "schema": {
+        "$ref": "#/definitions/UUID"
+      },
+      "headers": {
+        "activationDate": {
+          "type": "string"
+        },
+        "applicationName": {
+          "type": "string"
+        },
+        "applicationVariation": {
+          "type": "string"
+        },
+        "applicationVersion": {
+          "type": "string"
+        },
+        "licenseId": {},
+        "licenseUuid": {},
+        "machineKey": {
+          "type": "string"
+        },
+        "serialKey": {
+          "type": "string"
+        }
+      }
+    },
+    "SessionTokenResponse": {
+      "description": "SessionToken model",
+      "headers": {
+        "CreatedDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ExpiryDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Token": {
+          "type": "string"
+        },
+        "Username": {
+          "type": "string"
+        }
+      }
+    },
+    "SiteResponse": {
+      "description": "Site model",
+      "schema": {
+        "$ref": "#/definitions/UUID"
+      },
+      "headers": {
+        "localUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "siteID": {},
+        "siteName": {
+          "type": "string"
+        },
+        "siteUUID": {}
+      }
+    },
+    "SubjectResponse": {
+      "description": "Subject model",
+      "schema": {
+        "$ref": "#/definitions/UUID"
+      },
+      "headers": {
+        "localUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "subjectActive": {
+          "type": "boolean"
+        },
+        "subjectAdditionalId": {
+          "type": "string"
+        },
+        "subjectAdditionalId2": {
+          "type": "string"
+        },
+        "subjectAddress": {
+          "type": "string"
+        },
+        "subjectCreationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "subjectDob": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "subjectEmail": {
+          "type": "string"
+        },
+        "subjectEthnicity": {
+          "type": "string"
+        },
+        "subjectFirstName": {
+          "type": "string"
+        },
+        "subjectGender": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "subjectGroupUuid": {},
+        "subjectHeight": {
+          "type": "number",
+          "format": "float"
+        },
+        "subjectId": {},
+        "subjectLastName": {
+          "type": "string"
+        },
+        "subjectPhoneNumber": {
+          "type": "string"
+        },
+        "subjectSiteUuid": {},
+        "subjectStatus": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "subjectUserName": {
+          "type": "string"
+        },
+        "subjectUuid": {}
+      }
+    },
+    "SubjectsResponse": {
+      "description": "Subjects is a collection of Subjects",
+      "headers": {
+        "Subjects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Subject"
+          }
+        }
+      }
+    }
+  }
+}

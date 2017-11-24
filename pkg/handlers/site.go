@@ -19,6 +19,17 @@ func RegisterSiteEndpoints(e *echo.Group) {
 	g.GET("", getSite, checkSession())
 }
 
+// swagger:route POST /site SaveSite
+//
+// Creates or updates a test site.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: SiteResponse
 func saveSite(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -36,11 +47,8 @@ func saveSite(e echo.Context) error {
 	err = db.C("Sites").Find(bson.M{"siteUuid": s.SiteUUID}).One(&existing)
 
 	if err == nil {
-		//fmt.Printf("Found site: %+v", existing)
-
 		if existing.ServerUpdateDateTime.After(s.LocalUpdateDateTime) {
 			// Server version is more recent
-			//fmt.Printf("Subject is out of date, returning")
 			return e.JSON(http.StatusConflict, existing)
 		}
 
@@ -49,14 +57,11 @@ func saveSite(e echo.Context) error {
 		if err != nil {
 			return err
 		}
-		//fmt.Printf("Updated site: %+v", s)
 	} else {
 
 		if s.SiteID == "" {
 			s.SiteID = bson.NewObjectId()
 		}
-
-		//fmt.Printf("New site: %+v", s)
 
 		err = db.C("Sites").Insert(&s)
 		if err != nil {
@@ -67,6 +72,17 @@ func saveSite(e echo.Context) error {
 	return e.JSON(http.StatusOK, s)
 }
 
+// swagger:route GET /site GetSite
+//
+// Retrieves an existing test site.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: SiteResponse
 func getSite(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {

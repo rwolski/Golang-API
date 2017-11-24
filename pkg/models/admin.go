@@ -8,6 +8,7 @@ import (
 )
 
 // Admin model
+// swagger:response AdminResponse
 type Admin struct {
 	AdminID              bson.ObjectId `json:"adminID" bson:"_id"`
 	AdminUUID            uuid.UUID     `json:"adminUuid" bson:"adminUuid"`
@@ -26,6 +27,7 @@ type Admin struct {
 }
 
 // Admins is a collection of Admins
+// swagger:response AdminsResponse
 type Admins struct {
 	Admins []Admin
 }

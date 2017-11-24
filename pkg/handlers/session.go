@@ -26,6 +26,17 @@ func getToken(e echo.Context) error {
 	return e.String(http.StatusOK, uuid.NewV4().String())
 }
 
+// swagger:route POST /users/signup Signup
+//
+// Creates a new isogate company account.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: Ok
 func signup(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -65,6 +76,17 @@ func signup(e echo.Context) error {
 	return e.NoContent(http.StatusOK)
 }
 
+// swagger:route POST /users/login Login
+//
+// Starts a new authenticated session for a company account.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: SessionTokenResponse
 func login(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -88,7 +110,7 @@ func login(e echo.Context) error {
 		return e.String(http.StatusUnauthorized, "Invalid user details")
 	}
 
-	s := models.Session{
+	s := models.SessionToken{
 		ID:              bson.NewObjectId(),
 		Username:        existing.Username,
 		CreatedDateTime: time.Now().UTC(),
@@ -104,19 +126,30 @@ func login(e echo.Context) error {
 	return e.JSON(http.StatusOK, &s)
 }
 
+// swagger:route POST /users/logout Logout
+//
+// Destroys an existing account session.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: Ok
 func logout(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
 		return fmt.Errorf("Bad database session")
 	}
 
-	s := models.Session{}
+	s := models.SessionToken{}
 	err := e.Bind(&s)
 	if err != nil {
 		return err
 	}
 
-	existing := models.Session{}
+	existing := models.SessionToken{}
 	err = db.C("Session").Find(bson.M{"Token": s.Token}).One(&existing)
 
 	if err != nil {
@@ -144,7 +177,7 @@ func checkSession() echo.MiddlewareFunc {
 				return e.String(http.StatusUnauthorized, "No token provided")
 			}
 
-			existing := models.Session{}
+			existing := models.SessionToken{}
 			err := db.C("Sessions").Find(bson.M{"token": token}).One(&existing)
 			if err != nil {
 				return e.String(http.StatusUnauthorized, "Incorrect token provided")

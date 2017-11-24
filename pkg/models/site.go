@@ -8,6 +8,7 @@ import (
 )
 
 // Site model
+// swagger:response SiteResponse
 type Site struct {
 	SiteID               bson.ObjectId `json:"siteID" bson:"_id"`
 	SiteUUID             uuid.UUID     `json:"siteUUID" bson:"siteUuid"`

@@ -8,6 +8,7 @@ import (
 )
 
 // Group model
+// swagger:response GroupResponse
 type Group struct {
 	GroupID              bson.ObjectId `json:"groupId" bson:"_id"`
 	GroupUUID            uuid.UUID     `json:"groupUuid" bson:"groupUuid"`
@@ -18,6 +19,7 @@ type Group struct {
 }
 
 // Groups is a collection of groups
+// swagger:response GroupsResponse
 type Groups struct {
 	Groups []Group
 }

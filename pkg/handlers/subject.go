@@ -19,6 +19,17 @@ func RegisterSubjectEndpoints(e *echo.Group) {
 	e.GET("/subjects", getSubjects, checkSession())
 }
 
+// swagger:route POST /subject SaveSubject
+//
+// Creates or updates a subject record.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: SubjectResponse
 func saveSubject(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -66,6 +77,17 @@ func saveSubject(e echo.Context) error {
 	return e.JSON(http.StatusOK, s)
 }
 
+// swagger:route GET /subject GetSubject
+//
+// Get a specific subject by it's UUID.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: SubjectResponse
 func getSubject(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -93,6 +115,17 @@ func getSubject(e echo.Context) error {
 	return e.JSON(http.StatusOK, s)
 }
 
+// swagger:route GET /subjects GetSubjects
+//
+// Gets all subjects for a given Site UUID.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: SubjectsResponse
 func getSubjects(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {

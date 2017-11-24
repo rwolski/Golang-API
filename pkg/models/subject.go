@@ -8,6 +8,7 @@ import (
 )
 
 // Subject model
+// swagger:response SubjectResponse
 type Subject struct {
 	SubjectID            bson.ObjectId `json:"subjectId" bson:"_id"`
 	SubjectUUID          uuid.UUID     `json:"subjectUuid" bson:"subjectUuid"`
@@ -33,6 +34,7 @@ type Subject struct {
 }
 
 // Subjects is a collection of Subjects
+// swagger:response SubjectsResponse
 type Subjects struct {
 	Subjects []Subject
 }

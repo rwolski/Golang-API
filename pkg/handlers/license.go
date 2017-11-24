@@ -19,6 +19,17 @@ func RegisterLicenseEndpoints(e *echo.Group) {
 	g.DELETE("/:id", deleteLicense, checkSession())
 }
 
+// swagger:route POST /license SaveLicense
+//
+// Activates a product license for a given product and machine.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: LicenseResponse
 func saveLicense(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -66,6 +77,17 @@ func saveLicense(e echo.Context) error {
 	return e.JSON(http.StatusOK, a)
 }
 
+// swagger:route GET /license GetLicense
+//
+// Gets a product license by it's UUID.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: LicenseResponse
 func getLicense(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -93,6 +115,17 @@ func getLicense(e echo.Context) error {
 	return e.JSON(http.StatusOK, a)
 }
 
+// swagger:route DELETE /license DeleteLicense
+//
+// Deletes a product license by it's UUID.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: Ok
 func deleteLicense(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {

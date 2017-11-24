@@ -1,3 +1,16 @@
+//go:generate swagger generate spec
+
+// IsoGate prototype.
+//
+// Version: 1.0
+// Schemes: http
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+//
+//
+// swagger:meta
 package main
 
 import (
@@ -9,7 +22,6 @@ import (
 )
 
 func main() {
-
 	db, err := mgo.Dial("localhost:27017")
 	if err != nil {
 		log.Fatal("cannot dial mongo", err)
@@ -17,10 +29,11 @@ func main() {
 	defer db.Close() // clean up when we’re done
 
 	e := echo.New()
+	//setupAPI(e, db)
 	e.Use(attachMongoContext(db))
 
 	session := e.Group("/user")
-	api := e.Group("") //, checkSession())
+	api := e.Group("")
 
 	handlers.RegisterSessionEndpoints(session)
 

@@ -19,6 +19,17 @@ func RegisterGroupEndpoints(e *echo.Group) {
 	e.GET("/groups", getGroups, checkSession())
 }
 
+// swagger:route POST /group SaveGroup
+//
+// Creates or updates a subject group.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: GroupResponse
 func saveGroup(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -36,11 +47,8 @@ func saveGroup(e echo.Context) error {
 	err = db.C("Groups").Find(bson.M{"groupUuid": g.GroupUUID}).One(&existing)
 
 	if err == nil {
-		//fmt.Printf("Found group: %+v", existing)
-
 		if existing.ServerUpdateDateTime.After(g.LocalUpdateDateTime) {
 			// Server version is more recent
-			//fmt.Printf("Group is out of date, returning")
 			return e.JSON(http.StatusConflict, existing)
 		}
 
@@ -49,15 +57,10 @@ func saveGroup(e echo.Context) error {
 		if err != nil {
 			return err
 		}
-
-		//fmt.Printf("Updated group: %+v", g)
 	} else {
-
 		if g.GroupID == "" {
 			g.GroupID = bson.NewObjectId()
 		}
-
-		//fmt.Printf("New group: %+v", g)
 
 		err = db.C("Groups").Insert(&g)
 		if err != nil {
@@ -68,6 +71,17 @@ func saveGroup(e echo.Context) error {
 	return e.JSON(http.StatusOK, g)
 }
 
+// swagger:route GET /group GetGroup
+//
+// Gets a subject group by it's UUID.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: GroupResponse
 func getGroup(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -95,6 +109,17 @@ func getGroup(e echo.Context) error {
 	return e.JSON(http.StatusOK, g)
 }
 
+// swagger:route GET /groups GetGroups
+//
+// Gets all subject groups for a given Site UUID.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: GroupsResponse
 func getGroups(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {

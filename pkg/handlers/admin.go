@@ -19,6 +19,17 @@ func RegisterAdminEndpoints(e *echo.Group) {
 	e.GET("/admins", getAdmins, checkSession())
 }
 
+// swagger:route POST /admin SaveAdmin
+//
+// Creates or updates a site admin account.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200
 func saveAdmin(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -36,11 +47,8 @@ func saveAdmin(e echo.Context) error {
 	err = db.C("Admins").Find(bson.M{"adminUuid": a.AdminUUID}).One(&existing)
 
 	if err == nil {
-		//fmt.Printf("Found admin: %+v", existing)
-
 		if existing.ServerUpdateDateTime.After(a.LocalUpdateDateTime) {
 			// Server version is more recent
-			//fmt.Printf("Admin is out of date, returning")
 			return e.JSON(http.StatusConflict, existing)
 		}
 
@@ -49,13 +57,10 @@ func saveAdmin(e echo.Context) error {
 		if err != nil {
 			return err
 		}
-		//fmt.Printf("Updated admin: %+v", a)
 	} else {
 		if a.AdminID == "" {
 			a.AdminID = bson.NewObjectId()
 		}
-
-		//fmt.Printf("New admin: %+v", a)
 
 		err = db.C("Admins").Insert(&a)
 		if err != nil {
@@ -66,6 +71,17 @@ func saveAdmin(e echo.Context) error {
 	return e.JSON(http.StatusOK, a)
 }
 
+// swagger:route GET /admin GetAdmin
+//
+// Gets a site admin account.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: AdminResponse
 func getAdmin(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -93,6 +109,17 @@ func getAdmin(e echo.Context) error {
 	return e.JSON(http.StatusOK, a)
 }
 
+// swagger:route GET /admins GetAdmins
+//
+// Gets all admin accounts for a given Site UUID.
+//
+// Consumes:
+// - application/json
+// Produces:
+// - application/json
+// Schemes: http, https
+// Responses:
+// 	200: AdminsResponse
 func getAdmins(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
