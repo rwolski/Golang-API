@@ -38,7 +38,7 @@ func saveBalanceStandardSession(e echo.Context) error {
 	}
 
 	if s.SessionID == "" {
-		s.SessionID = bson.NewObjectId()
+		s.SessionID = bson.NewObjectId().String()
 	}
 
 	err = db.C("BalanceSessions").Insert(&s.BalanceSession)
@@ -81,7 +81,7 @@ func saveBalanceStandardData(db *mgo.Database, tests []models.BalanceStandardTes
 
 	models := make([]interface{}, len(tests))
 	for i := 0; i < len(tests); i++ {
-		tests[i].TestID = bson.NewObjectId()
+		tests[i].TestID = bson.NewObjectId().String()
 		tests[i].ServerUpdateDateTime = time.Now().UTC()
 		models[i] = tests[i]
 	}
@@ -100,7 +100,7 @@ func saveBalancePathData(db *mgo.Database, tests []models.BalancePathTest) error
 
 	models := make([]interface{}, len(tests))
 	for i := 0; i < len(tests); i++ {
-		tests[i].TestID = bson.NewObjectId()
+		tests[i].TestID = bson.NewObjectId().String()
 		tests[i].ServerUpdateDateTime = time.Now().UTC()
 		models[i] = tests[i]
 	}
@@ -119,7 +119,7 @@ func saveBalanceSpellData(db *mgo.Database, tests []models.BalanceSpellTest) err
 
 	models := make([]interface{}, len(tests))
 	for i := 0; i < len(tests); i++ {
-		tests[i].TestID = bson.NewObjectId()
+		tests[i].TestID = bson.NewObjectId().String()
 		tests[i].ServerUpdateDateTime = time.Now().UTC()
 		models[i] = tests[i]
 	}
@@ -138,7 +138,7 @@ func saveBalanceLosData(db *mgo.Database, tests []models.BalanceLosTest) error {
 
 	models := make([]interface{}, len(tests))
 	for i := 0; i < len(tests); i++ {
-		tests[i].TestID = bson.NewObjectId()
+		tests[i].TestID = bson.NewObjectId().String()
 		tests[i].ServerUpdateDateTime = time.Now().UTC()
 		models[i] = tests[i]
 	}
@@ -157,7 +157,7 @@ func saveChoiceTests(db *mgo.Database, tests []models.BalanceCognitiveTest) erro
 
 	models := make([]interface{}, len(tests))
 	for i := 0; i < len(tests); i++ {
-		tests[i].TestID = bson.NewObjectId()
+		tests[i].TestID = bson.NewObjectId().String()
 		tests[i].ServerUpdateDateTime = time.Now().UTC()
 		models[i] = tests[i]
 	}

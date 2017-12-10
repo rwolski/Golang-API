@@ -19,7 +19,7 @@ func RegisterSessionEndpoints(e *echo.Group) {
 	e.POST("/signup", signup)
 	//e.POST("/token", getToken)
 	e.POST("/login", login)
-	e.POST("/logout", logout)
+	e.POST("/logout", logout, checkSession())
 }
 
 func getToken(e echo.Context) error {
@@ -36,7 +36,7 @@ func getToken(e echo.Context) error {
 // - application/json
 // Schemes: http, https
 // Responses:
-// 	200: Ok
+// 	200: HttpResponse
 func signup(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -64,7 +64,7 @@ func signup(e echo.Context) error {
 		}
 	} else {
 		if a.ID == "" {
-			a.ID = bson.NewObjectId()
+			a.ID = bson.NewObjectId().String()
 		}
 
 		err = db.C("Accounts").Insert(&a)
@@ -87,6 +87,7 @@ func signup(e echo.Context) error {
 // Schemes: http, https
 // Responses:
 // 	200: SessionTokenResponse
+//  401: HttpResponse Incorrect account details
 func login(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -111,7 +112,7 @@ func login(e echo.Context) error {
 	}
 
 	s := models.SessionToken{
-		ID:              bson.NewObjectId(),
+		ID:              bson.NewObjectId().String(),
 		Username:        existing.Username,
 		CreatedDateTime: time.Now().UTC(),
 		ExpiryDateTime:  time.Now().UTC().Add(models.SessionExpiry),
@@ -136,7 +137,8 @@ func login(e echo.Context) error {
 // - application/json
 // Schemes: http, https
 // Responses:
-// 	200: Ok
+// 	200: HttpResponse
+//  401: HttpResponse
 func logout(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {

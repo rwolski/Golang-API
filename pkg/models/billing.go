@@ -2,9 +2,6 @@ package models
 
 import (
 	"time"
-
-	uuid "github.com/satori/go.uuid"
-	"gopkg.in/mgo.v2/bson"
 )
 
 const (
@@ -16,28 +13,28 @@ const (
 
 // BillingAccount model
 type BillingAccount struct {
-	BillingAccountID     bson.ObjectId `json:"billingAccountId" bson:"_id"`
-	BillingAccountUUID   uuid.UUID     `json:"billingAccountUuid" bson:"billingAccountUuid"`
-	BillingAdminUUID     uuid.UUID     `json:"billingAdminUuid" bson:"billingAdminUuid"`
-	BillingCredits       int           `json:"billingCredits,omitempty" bson:"billingCredits"`
-	BillingSiteUUID      uuid.UUID     `json:"billingSiteUuid" bson:"billingSiteUuid"`
-	TrialAccount         bool          `json:"trialAccount" bson:"-"`
-	LocalUpdateDateTime  time.Time     `json:"localUpdateDateTime" bson:"-"`
-	ServerUpdateDateTime time.Time     `json:"serverUpdateDateTime,omitempty" bson:"serverUpdateDateTime"`
+	BillingAccountID     string    `json:"billingAccountId" bson:"_id"`
+	BillingAccountUUID   string    `json:"billingAccountUuid" bson:"billingAccountUuid"`
+	BillingAdminUUID     string    `json:"billingAdminUuid" bson:"billingAdminUuid"`
+	BillingCredits       int       `json:"billingCredits,omitempty" bson:"billingCredits"`
+	BillingSiteUUID      string    `json:"billingSiteUuid" bson:"billingSiteUuid"`
+	TrialAccount         bool      `json:"trialAccount" bson:"-"`
+	LocalUpdateDateTime  time.Time `json:"localUpdateDateTime" bson:"-"`
+	ServerUpdateDateTime time.Time `json:"serverUpdateDateTime,omitempty" bson:"serverUpdateDateTime"`
 }
 
 // BillingEvent model
 type BillingEvent struct {
-	BillingEventID      bson.ObjectId `json:"billingEventId" bson:"_id"`
-	BillingEventUUID    uuid.UUID     `json:"billingEventUuid" bson:"billingEventUuid"`
-	BillingAccountUUID  uuid.UUID     `json:"billingAccountUuid" bson:"billingAccountUuid"`
-	SessionUUID         uuid.UUID     `json:"sessionUuid" bson:"sessionUuid"`
-	SessionType         int           `json:"sessionType" bson:"sessionType"`
-	SessionStatus       int           `json:"sessionStatus" bson:"sessionStatus"`
-	LocalStartDateTime  time.Time     `json:"localStartDateTime" bson:"localStartDateTime"`
-	LocalEndDateTime    time.Time     `json:"localEndDateTime" bson:"localEndDateTime"`
-	ServerStartDateTime time.Time     `json:"serverStartDateTime" bson:"serverStartDateTime"`
-	ServerEndDateTime   time.Time     `json:"serverEndDateTime" bson:"serverEndDateTime"`
+	BillingEventID      string    `json:"billingEventId" bson:"_id"`
+	BillingEventUUID    string    `json:"billingEventUuid" bson:"billingEventUuid"`
+	BillingAccountUUID  string    `json:"billingAccountUuid" bson:"billingAccountUuid"`
+	SessionUUID         string    `json:"sessionUuid" bson:"sessionUuid"`
+	SessionType         int       `json:"sessionType" bson:"sessionType"`
+	SessionStatus       int       `json:"sessionStatus" bson:"sessionStatus"`
+	LocalStartDateTime  time.Time `json:"localStartDateTime" bson:"localStartDateTime"`
+	LocalEndDateTime    time.Time `json:"localEndDateTime" bson:"localEndDateTime"`
+	ServerStartDateTime time.Time `json:"serverStartDateTime" bson:"serverStartDateTime"`
+	ServerEndDateTime   time.Time `json:"serverEndDateTime" bson:"serverEndDateTime"`
 }
 
 // BillingAccounts is a collection of BillingAccounts

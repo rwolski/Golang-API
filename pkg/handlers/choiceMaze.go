@@ -38,7 +38,7 @@ func saveMazeSession(e echo.Context) error {
 	}
 
 	if s.SessionID == "" {
-		s.SessionID = bson.NewObjectId()
+		s.SessionID = bson.NewObjectId().String()
 	}
 
 	err = db.C("ChoiceSessions").Insert(&s.ChoiceSession)
@@ -57,7 +57,7 @@ func saveMazeSession(e echo.Context) error {
 func saveChoiceMazeData(db *mgo.Database, tests []models.ChoiceMazeTest) error {
 	models := make([]interface{}, len(tests))
 	for i := 0; i < len(tests); i++ {
-		tests[i].TestID = bson.NewObjectId()
+		tests[i].TestID = bson.NewObjectId().String()
 		tests[i].ServerUpdateDateTime = time.Now().UTC()
 		models[i] = tests[i]
 	}

@@ -29,7 +29,9 @@ func RegisterAdminEndpoints(e *echo.Group) {
 // - application/json
 // Schemes: http, https
 // Responses:
-// 	200
+// 	200: AdminResponse
+//  401: HttpResponse
+//  409: AdminResponse A more recent version is available
 func saveAdmin(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -59,7 +61,7 @@ func saveAdmin(e echo.Context) error {
 		}
 	} else {
 		if a.AdminID == "" {
-			a.AdminID = bson.NewObjectId()
+			a.AdminID = bson.NewObjectId().String()
 		}
 
 		err = db.C("Admins").Insert(&a)
@@ -82,6 +84,7 @@ func saveAdmin(e echo.Context) error {
 // Schemes: http, https
 // Responses:
 // 	200: AdminResponse
+//  401: HttpResponse
 func getAdmin(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -120,6 +123,7 @@ func getAdmin(e echo.Context) error {
 // Schemes: http, https
 // Responses:
 // 	200: AdminsResponse
+//  401: HttpResponse
 func getAdmins(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {

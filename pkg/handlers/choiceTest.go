@@ -38,7 +38,7 @@ func saveChoiceStandardSession(e echo.Context) error {
 	}
 
 	if s.SessionID == "" {
-		s.SessionID = bson.NewObjectId()
+		s.SessionID = bson.NewObjectId().String()
 	}
 
 	err = db.C("ChoiceSessions").Insert(&s.ChoiceSession)
@@ -62,7 +62,7 @@ func saveChoiceStandardData(db *mgo.Database, tests []models.ChoiceTest) error {
 
 	models := make([]interface{}, len(tests))
 	for i := 0; i < len(tests); i++ {
-		tests[i].TestID = bson.NewObjectId()
+		tests[i].TestID = bson.NewObjectId().String()
 		tests[i].ServerUpdateDateTime = time.Now().UTC()
 		models[i] = tests[i]
 	}
@@ -77,7 +77,7 @@ func saveChoiceStandardData(db *mgo.Database, tests []models.ChoiceTest) error {
 func saveChoiceRecallData(db *mgo.Database, tests []models.ChoiceTest) error {
 	models := make([]interface{}, len(tests))
 	for i := 0; i < len(tests); i++ {
-		tests[i].TestID = bson.NewObjectId()
+		tests[i].TestID = bson.NewObjectId().String()
 		tests[i].ServerUpdateDateTime = time.Now().UTC()
 		models[i] = tests[i]
 	}

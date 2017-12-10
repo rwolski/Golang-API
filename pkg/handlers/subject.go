@@ -30,6 +30,8 @@ func RegisterSubjectEndpoints(e *echo.Group) {
 // Schemes: http, https
 // Responses:
 // 	200: SubjectResponse
+//  401: HttpResponse
+//  409: SubjectResponse A more recent version is available
 func saveSubject(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -63,7 +65,7 @@ func saveSubject(e echo.Context) error {
 		//fmt.Printf("Updated subject: %+v", s)
 	} else {
 		if s.SubjectID == "" {
-			s.SubjectID = bson.NewObjectId()
+			s.SubjectID = bson.NewObjectId().String()
 		}
 
 		//fmt.Printf("New subject: %+v", s)
@@ -88,6 +90,7 @@ func saveSubject(e echo.Context) error {
 // Schemes: http, https
 // Responses:
 // 	200: SubjectResponse
+//  401: HttpResponse
 func getSubject(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -126,6 +129,7 @@ func getSubject(e echo.Context) error {
 // Schemes: http, https
 // Responses:
 // 	200: SubjectsResponse
+//  401: HttpResponse
 func getSubjects(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {

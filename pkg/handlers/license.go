@@ -63,7 +63,7 @@ func saveLicense(e echo.Context) error {
 		fmt.Printf("Updated license: %+v", a)
 	} else {
 		if a.LicenseID == "" {
-			a.LicenseID = bson.NewObjectId()
+			a.LicenseID = bson.NewObjectId().String()
 		}
 
 		fmt.Printf("New license: %+v", a)
@@ -88,6 +88,7 @@ func saveLicense(e echo.Context) error {
 // Schemes: http, https
 // Responses:
 // 	200: LicenseResponse
+//  401: HttpResponse
 func getLicense(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -125,7 +126,8 @@ func getLicense(e echo.Context) error {
 // - application/json
 // Schemes: http, https
 // Responses:
-// 	200: Ok
+// 	200: HttpResponse
+//  401: HttpResponse
 func deleteLicense(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {

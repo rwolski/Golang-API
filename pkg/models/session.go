@@ -2,8 +2,6 @@ package models
 
 import (
 	"time"
-
-	"gopkg.in/mgo.v2/bson"
 )
 
 const (
@@ -13,7 +11,7 @@ const (
 // SessionToken model
 // swagger:response SessionTokenResponse
 type SessionToken struct {
-	ID              bson.ObjectId `json:"-"`
+	ID              string `json:"-"`
 	Username        string
 	Token           string
 	CreatedDateTime time.Time
@@ -22,7 +20,7 @@ type SessionToken struct {
 }
 
 type Account struct {
-	ID       bson.ObjectId `json:"-"`
+	ID       string `json:"-"`
 	Username string
 	Password string
 }

@@ -31,6 +31,9 @@
         "responses": {
           "200": {
             "$ref": "#/responses/AdminResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
           }
         }
       },
@@ -47,7 +50,17 @@
         ],
         "summary": "Creates or updates a site admin account.",
         "operationId": "SaveAdmin",
-        "responses": {}
+        "responses": {
+          "200": {
+            "$ref": "#/responses/AdminResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
+          },
+          "409": {
+            "$ref": "#/responses/AdminResponse"
+          }
+        }
       }
     },
     "/admins": {
@@ -67,6 +80,9 @@
         "responses": {
           "200": {
             "$ref": "#/responses/AdminsResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
           }
         }
       }
@@ -88,6 +104,9 @@
         "responses": {
           "200": {
             "$ref": "#/responses/GroupResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
           }
         }
       },
@@ -106,6 +125,12 @@
         "operationId": "SaveGroup",
         "responses": {
           "200": {
+            "$ref": "#/responses/GroupResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
+          },
+          "409": {
             "$ref": "#/responses/GroupResponse"
           }
         }
@@ -128,6 +153,9 @@
         "responses": {
           "200": {
             "$ref": "#/responses/GroupsResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
           }
         }
       }
@@ -149,6 +177,9 @@
         "responses": {
           "200": {
             "$ref": "#/responses/LicenseResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
           }
         }
       },
@@ -186,7 +217,10 @@
         "operationId": "DeleteLicense",
         "responses": {
           "200": {
-            "$ref": "#/responses/Ok"
+            "$ref": "#/responses/HttpResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
           }
         }
       }
@@ -208,6 +242,9 @@
         "responses": {
           "200": {
             "$ref": "#/responses/SiteResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
           }
         }
       },
@@ -226,6 +263,12 @@
         "operationId": "SaveSite",
         "responses": {
           "200": {
+            "$ref": "#/responses/SiteResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
+          },
+          "409": {
             "$ref": "#/responses/SiteResponse"
           }
         }
@@ -248,6 +291,9 @@
         "responses": {
           "200": {
             "$ref": "#/responses/SubjectResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
           }
         }
       },
@@ -266,6 +312,12 @@
         "operationId": "SaveSubject",
         "responses": {
           "200": {
+            "$ref": "#/responses/SubjectResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
+          },
+          "409": {
             "$ref": "#/responses/SubjectResponse"
           }
         }
@@ -288,6 +340,9 @@
         "responses": {
           "200": {
             "$ref": "#/responses/SubjectsResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
           }
         }
       }
@@ -309,6 +364,9 @@
         "responses": {
           "200": {
             "$ref": "#/responses/SessionTokenResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
           }
         }
       }
@@ -329,7 +387,10 @@
         "operationId": "Logout",
         "responses": {
           "200": {
-            "$ref": "#/responses/Ok"
+            "$ref": "#/responses/HttpResponse"
+          },
+          "401": {
+            "$ref": "#/responses/HttpResponse"
           }
         }
       }
@@ -350,7 +411,7 @@
         "operationId": "Signup",
         "responses": {
           "200": {
-            "$ref": "#/responses/Ok"
+            "$ref": "#/responses/HttpResponse"
           }
         }
       }
@@ -375,7 +436,8 @@
           "x-go-name": "AdminEmail"
         },
         "adminID": {
-          "$ref": "#/definitions/ObjectId"
+          "type": "string",
+          "x-go-name": "AdminID"
         },
         "adminLoginName": {
           "type": "string",
@@ -391,7 +453,8 @@
           "x-go-name": "AdminPasswordDate"
         },
         "adminSiteUuid": {
-          "$ref": "#/definitions/UUID"
+          "type": "string",
+          "x-go-name": "AdminSiteUUID"
         },
         "adminStatus": {
           "type": "integer",
@@ -399,7 +462,8 @@
           "x-go-name": "AdminStatus"
         },
         "adminUuid": {
-          "$ref": "#/definitions/UUID"
+          "type": "string",
+          "x-go-name": "AdminUUID"
         },
         "localUpdateDateTime": {
           "type": "string",
@@ -410,6 +474,942 @@
           "type": "string",
           "format": "date-time",
           "x-go-name": "ServerUpdateDateTime"
+        }
+      },
+      "x-go-package": "isogate/pkg/models"
+    },
+    "BalanceCognitiveTest": {
+      "type": "object",
+      "properties": {
+        "BalanceSessionUUID": {
+          "type": "string"
+        },
+        "ChoiceSessionUUID": {
+          "type": "string"
+        },
+        "ServerUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "TestID": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "isogate/pkg/models"
+    },
+    "BalanceLosTest": {
+      "description": "BalanceLosTest",
+      "type": "object",
+      "properties": {
+        "ServerUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "TestAvgCogD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestAvgCogX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestAvgCogY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestCopData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestCopDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestDataPrecision": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestDeviationX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestDeviationY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestFormat": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestID": {
+          "type": "string"
+        },
+        "TestIndex": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestLength": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMaxX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMaxY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMinX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMinY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestNotes": {
+          "type": "string"
+        },
+        "TestParameters": {
+          "type": "string"
+        },
+        "TestPointData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestPointDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestRawData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestRawDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestRenyiEntropyD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestRenyiEntropyX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestRenyiEntropyY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestResource": {
+          "type": "string"
+        },
+        "TestSessionUUID": {
+          "type": "string"
+        },
+        "TestShannonEntropyD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestShannonEntropyX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestShannonEntropyY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestSway": {
+          "type": "number",
+          "format": "double"
+        },
+        "TestThumbnailData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestThumbnailSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestTravelD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTravelX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTravelY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestType": {
+          "type": "string"
+        },
+        "TestUUID": {
+          "type": "string"
+        },
+        "TestVelocityAngle": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestVelocitySpeed": {
+          "type": "number",
+          "format": "float"
+        }
+      },
+      "x-go-package": "isogate/pkg/models"
+    },
+    "BalancePathTest": {
+      "description": "BalancePathTest",
+      "type": "object",
+      "properties": {
+        "ServerUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "TestAvgCogD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestAvgCogX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestAvgCogY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestCollisionNum": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestCollisionTime": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestCopData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestCopDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestDataPrecision": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestDeviationX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestDeviationY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestFormat": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestID": {
+          "type": "string"
+        },
+        "TestIndex": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestLength": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMaxX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMaxY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMinX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMinY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestNotes": {
+          "type": "string"
+        },
+        "TestOrientation": {
+          "type": "string"
+        },
+        "TestRawData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestRawDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestRenyiEntropyD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestRenyiEntropyX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestRenyiEntropyY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestResource": {
+          "type": "string"
+        },
+        "TestSessionUUID": {
+          "type": "string"
+        },
+        "TestShannonEntropyD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestShannonEntropyX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestShannonEntropyY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestSway": {
+          "type": "number",
+          "format": "double"
+        },
+        "TestThumbnailData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestThumbnailSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestTravelD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTravelX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTravelY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestType": {
+          "type": "string"
+        },
+        "TestUUID": {
+          "type": "string"
+        },
+        "TestVelocityAngle": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestVelocitySpeed": {
+          "type": "number",
+          "format": "float"
+        }
+      },
+      "x-go-package": "isogate/pkg/models"
+    },
+    "BalanceSpellTest": {
+      "description": "BalanceSpellTest",
+      "type": "object",
+      "properties": {
+        "ServerUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "TestAvgCogD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestAvgCogX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestAvgCogY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestCopData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestCopDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestDataPrecision": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestDeviationX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestDeviationY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestFormat": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestID": {
+          "type": "string"
+        },
+        "TestIndex": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestLength": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMaxX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMaxY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMinX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMinY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestNotes": {
+          "type": "string"
+        },
+        "TestParameters": {
+          "type": "string"
+        },
+        "TestPointData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestPointDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestRawData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestRawDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestRenyiEntropyD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestRenyiEntropyX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestRenyiEntropyY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestResource": {
+          "type": "string"
+        },
+        "TestSessionUUID": {
+          "type": "string"
+        },
+        "TestShannonEntropyD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestShannonEntropyX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestShannonEntropyY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestSway": {
+          "type": "number",
+          "format": "double"
+        },
+        "TestThumbnailData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestThumbnailSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestTravelD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTravelX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTravelY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestType": {
+          "type": "string"
+        },
+        "TestUUID": {
+          "type": "string"
+        },
+        "TestVelocityAngle": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestVelocitySpeed": {
+          "type": "number",
+          "format": "float"
+        }
+      },
+      "x-go-package": "isogate/pkg/models"
+    },
+    "BalanceStandardTest": {
+      "description": "BalanceStandardTest",
+      "type": "object",
+      "properties": {
+        "ServerUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "TestAvgCogD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestAvgCogX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestAvgCogY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestCopData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestCopDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestDataPrecision": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestDeviationX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestDeviationY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestFormat": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestID": {
+          "type": "string"
+        },
+        "TestIndex": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestLength": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMaxX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMaxY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMinX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMinY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestNotes": {
+          "type": "string"
+        },
+        "TestRawData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestRawDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestRenyiEntropyD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestRenyiEntropyX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestRenyiEntropyY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestSessionUUID": {
+          "type": "string"
+        },
+        "TestShannonEntropyD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestShannonEntropyX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestShannonEntropyY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestSway": {
+          "type": "number",
+          "format": "double"
+        },
+        "TestTarget1": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTarget1Result": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTarget2": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTarget2Result": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTarget3": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTarget3Result": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestThumbnailData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestThumbnailSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestTravelD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTravelX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTravelY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestType": {
+          "type": "string"
+        },
+        "TestUUID": {
+          "type": "string"
+        },
+        "TestVelocityAngle": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestVelocitySpeed": {
+          "type": "number",
+          "format": "float"
+        }
+      },
+      "x-go-package": "isogate/pkg/models"
+    },
+    "ChoiceMazeTest": {
+      "description": "ChoiceMazeTest model for maze tests",
+      "type": "object",
+      "properties": {
+        "serverUpdateDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "ServerUpdateDateTime"
+        },
+        "testAccuracy": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TestAccuracy"
+        },
+        "testCollisionTime": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TestCollisionTime"
+        },
+        "testData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "x-go-name": "TestData"
+        },
+        "testDeviationInputTime": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TestMaxCollisionTime"
+        },
+        "testDifficulty": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TestDifficulty"
+        },
+        "testId": {
+          "type": "string",
+          "x-go-name": "TestID"
+        },
+        "testIndex": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TestIndex"
+        },
+        "testMap": {
+          "type": "string",
+          "x-go-name": "TestMap"
+        },
+        "testMaxInput": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TestMaxInput"
+        },
+        "testMedianInputTime": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TestMinCollisionTime"
+        },
+        "testMinInput": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TestMinInput"
+        },
+        "testNumCollisions": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TestNumCollisions"
+        },
+        "testNumInputs": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TestNumInputs"
+        },
+        "testNumber": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TestNumber"
+        },
+        "testRating": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TestRating"
+        },
+        "testScreen": {
+          "type": "string",
+          "x-go-name": "TestScreen"
+        },
+        "testSessionUuid": {
+          "type": "string",
+          "x-go-name": "TestSessionUUID"
+        },
+        "testTotalTime": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TestTotalTime"
+        },
+        "testUuid": {
+          "type": "string",
+          "x-go-name": "TestUUID"
+        }
+      },
+      "x-go-package": "isogate/pkg/models"
+    },
+    "ChoiceTest": {
+      "description": "ChoiceTest model for regular tests/recall",
+      "type": "object",
+      "properties": {
+        "serverUpdateDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "ServerUpdateDateTime"
+        },
+        "testAccuracy": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TestAccuracy"
+        },
+        "testAvgInputTime": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TestAvgInputTime"
+        },
+        "testCardA": {
+          "type": "string",
+          "x-go-name": "TestCardA"
+        },
+        "testCardB": {
+          "type": "string",
+          "x-go-name": "TestCardB"
+        },
+        "testData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "x-go-name": "TestData"
+        },
+        "testDeviationInputTime": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TestDeviationInputTime"
+        },
+        "testDifficulty": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TestDifficulty"
+        },
+        "testId": {
+          "type": "string",
+          "x-go-name": "TestID"
+        },
+        "testIndex": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TestIndex"
+        },
+        "testMaxInput": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TestMaxInput"
+        },
+        "testMedianInputTime": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TestMedianInputTime"
+        },
+        "testMinInput": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TestMinInput"
+        },
+        "testNumCorrect": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TestNumCorrect"
+        },
+        "testNumInputs": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TestNumInputs"
+        },
+        "testNumber": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TestNumber"
+        },
+        "testPattern": {
+          "type": "string",
+          "x-go-name": "TestPattern"
+        },
+        "testSessionUuid": {
+          "type": "string",
+          "x-go-name": "TestSessionUUID"
+        },
+        "testTotalTime": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "TestTotalTime"
+        },
+        "testUuid": {
+          "type": "string",
+          "x-go-name": "TestUUID"
         }
       },
       "x-go-package": "isogate/pkg/models"
@@ -423,14 +1423,16 @@
           "x-go-name": "GroupActive"
         },
         "groupId": {
-          "$ref": "#/definitions/ObjectId"
+          "type": "string",
+          "x-go-name": "GroupID"
         },
         "groupName": {
           "type": "string",
           "x-go-name": "GroupName"
         },
         "groupUuid": {
-          "$ref": "#/definitions/UUID"
+          "type": "string",
+          "x-go-name": "GroupUUID"
         },
         "localUpdateDateTime": {
           "type": "string",
@@ -444,12 +1446,6 @@
         }
       },
       "x-go-package": "isogate/pkg/models"
-    },
-    "ObjectId": {
-      "description": "http://www.mongodb.org/display/DOCS/Object+IDs",
-      "type": "string",
-      "title": "ObjectId is a unique ID identifying a BSON value. It must be exactly 12 bytes\nlong. MongoDB objects by default have such a property set in their \"_id\"\nproperty.",
-      "x-go-package": "isogate/vendor/gopkg.in/mgo.v2/bson"
     },
     "Subject": {
       "description": "Subject model",
@@ -509,7 +1505,8 @@
           "x-go-name": "SubjectGender"
         },
         "subjectGroupUuid": {
-          "$ref": "#/definitions/UUID"
+          "type": "string",
+          "x-go-name": "SubjectGroupUUID"
         },
         "subjectHeight": {
           "type": "number",
@@ -517,7 +1514,8 @@
           "x-go-name": "SubjectHeight"
         },
         "subjectId": {
-          "$ref": "#/definitions/ObjectId"
+          "type": "string",
+          "x-go-name": "SubjectID"
         },
         "subjectLastName": {
           "type": "string",
@@ -528,7 +1526,8 @@
           "x-go-name": "SubjectPhoneNumber"
         },
         "subjectSiteUuid": {
-          "$ref": "#/definitions/UUID"
+          "type": "string",
+          "x-go-name": "SubjectSiteUUID"
         },
         "subjectStatus": {
           "type": "integer",
@@ -540,27 +1539,16 @@
           "x-go-name": "SubjectUserName"
         },
         "subjectUuid": {
-          "$ref": "#/definitions/UUID"
+          "type": "string",
+          "x-go-name": "SubjectUUID"
         }
       },
       "x-go-package": "isogate/pkg/models"
-    },
-    "UUID": {
-      "description": "UUID representation compliant with specification\ndescribed in RFC 4122.",
-      "type": "array",
-      "items": {
-        "type": "integer",
-        "format": "uint8"
-      },
-      "x-go-package": "isogate/vendor/github.com/satori/go.uuid"
     }
   },
   "responses": {
     "AdminResponse": {
       "description": "Admin model",
-      "schema": {
-        "$ref": "#/definitions/UUID"
-      },
       "headers": {
         "adminActive": {
           "type": "boolean"
@@ -572,7 +1560,9 @@
         "adminEmail": {
           "type": "string"
         },
-        "adminID": {},
+        "adminID": {
+          "type": "string"
+        },
         "adminLoginName": {
           "type": "string"
         },
@@ -583,12 +1573,16 @@
           "type": "string",
           "format": "date-time"
         },
-        "adminSiteUuid": {},
+        "adminSiteUuid": {
+          "type": "string"
+        },
         "adminStatus": {
           "type": "integer",
           "format": "int64"
         },
-        "adminUuid": {},
+        "adminUuid": {
+          "type": "string"
+        },
         "localUpdateDateTime": {
           "type": "string",
           "format": "date-time"
@@ -601,29 +1595,558 @@
     },
     "AdminsResponse": {
       "description": "Admins is a collection of Admins",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Admin"
+        }
+      }
+    },
+    "BalanceSessionResponse": {
+      "description": "BalanceSession model",
       "headers": {
-        "Admins": {
+        "PlateCode": {
+          "type": "string"
+        },
+        "SessionEvent": {
+          "type": "string"
+        },
+        "SessionInjury": {
+          "type": "string"
+        },
+        "SubjectWeight": {
+          "type": "number",
+          "format": "float"
+        },
+        "serverUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sessionAdminUuid": {
+          "type": "string"
+        },
+        "sessionDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sessionID": {
+          "type": "string"
+        },
+        "sessionName": {
+          "type": "string"
+        },
+        "sessionNotes": {
+          "type": "string"
+        },
+        "sessionSiteUuid": {
+          "type": "string"
+        },
+        "sessionType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sessionUserUuid": {
+          "type": "string"
+        },
+        "sessionUuid": {
+          "type": "string"
+        }
+      }
+    },
+    "BalanceSpellTestResponse": {
+      "description": "BalanceSpellTest",
+      "headers": {
+        "ServerUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "TestAvgCogD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestAvgCogX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestAvgCogY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestCopData": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Admin"
+            "type": "integer",
+            "format": "uint8"
           }
+        },
+        "TestCopDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestDataPrecision": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestDeviationX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestDeviationY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestFormat": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestID": {
+          "type": "string"
+        },
+        "TestIndex": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestLength": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMaxX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMaxY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMinX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMinY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestNotes": {
+          "type": "string"
+        },
+        "TestParameters": {
+          "type": "string"
+        },
+        "TestPointData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestPointDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestRawData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestRawDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestRenyiEntropyD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestRenyiEntropyX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestRenyiEntropyY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestResource": {
+          "type": "string"
+        },
+        "TestSessionUUID": {
+          "type": "string"
+        },
+        "TestShannonEntropyD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestShannonEntropyX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestShannonEntropyY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestSway": {
+          "type": "number",
+          "format": "double"
+        },
+        "TestThumbnailData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestThumbnailSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestTravelD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTravelX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTravelY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestType": {
+          "type": "string"
+        },
+        "TestUUID": {
+          "type": "string"
+        },
+        "TestVelocityAngle": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestVelocitySpeed": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "BalanceStandardSessionResponse": {
+      "description": "BalanceStandardSession std session",
+      "headers": {
+        "BalanceTests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BalanceStandardTest"
+          }
+        },
+        "ChoiceTests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BalanceCognitiveTest"
+          }
+        },
+        "LosTests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BalanceLosTest"
+          }
+        },
+        "PathTests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BalancePathTest"
+          }
+        },
+        "PlateCode": {
+          "type": "string"
+        },
+        "SessionEvent": {
+          "type": "string"
+        },
+        "SessionInjury": {
+          "type": "string"
+        },
+        "SpellTests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BalanceSpellTest"
+          }
+        },
+        "SubjectWeight": {
+          "type": "number",
+          "format": "float"
+        },
+        "serverUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sessionAdminUuid": {
+          "type": "string"
+        },
+        "sessionDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sessionID": {
+          "type": "string"
+        },
+        "sessionName": {
+          "type": "string"
+        },
+        "sessionNotes": {
+          "type": "string"
+        },
+        "sessionSiteUuid": {
+          "type": "string"
+        },
+        "sessionType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sessionUserUuid": {
+          "type": "string"
+        },
+        "sessionUuid": {
+          "type": "string"
+        }
+      }
+    },
+    "BalanceStandardTestResponse": {
+      "description": "BalanceStandardTest",
+      "headers": {
+        "ServerUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "TestAvgCogD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestAvgCogX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestAvgCogY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestCopData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestCopDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestDataPrecision": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestDeviationX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestDeviationY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestFormat": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestID": {
+          "type": "string"
+        },
+        "TestIndex": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestLength": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMaxX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMaxY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMinX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestMinY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestNotes": {
+          "type": "string"
+        },
+        "TestRawData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestRawDataSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestRenyiEntropyD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestRenyiEntropyX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestRenyiEntropyY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestSessionUUID": {
+          "type": "string"
+        },
+        "TestShannonEntropyD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestShannonEntropyX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestShannonEntropyY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestSway": {
+          "type": "number",
+          "format": "double"
+        },
+        "TestTarget1": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTarget1Result": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTarget2": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTarget2Result": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTarget3": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTarget3Result": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestThumbnailData": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8"
+          }
+        },
+        "TestThumbnailSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "TestTravelD": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTravelX": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestTravelY": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestType": {
+          "type": "string"
+        },
+        "TestUUID": {
+          "type": "string"
+        },
+        "TestVelocityAngle": {
+          "type": "number",
+          "format": "float"
+        },
+        "TestVelocitySpeed": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "ChoiceStandardSessionResponse": {
+      "description": "ChoiceMazeSession maze session",
+      "headers": {
+        "Tests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChoiceMazeTest"
+          }
+        },
+        "serverUpdateDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sessionAdminUuid": {
+          "type": "string"
+        },
+        "sessionDate": {
+          "type": "string"
+        },
+        "sessionID": {
+          "type": "string"
+        },
+        "sessionName": {
+          "type": "string"
+        },
+        "sessionNotes": {
+          "type": "string"
+        },
+        "sessionSiteUuid": {
+          "type": "string"
+        },
+        "sessionType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sessionUserUuid": {
+          "type": "string"
+        },
+        "sessionUuid": {
+          "type": "string"
         }
       }
     },
     "GroupResponse": {
       "description": "Group model",
-      "schema": {
-        "$ref": "#/definitions/UUID"
-      },
       "headers": {
         "groupActive": {
           "type": "boolean"
         },
-        "groupId": {},
+        "groupId": {
+          "type": "string"
+        },
         "groupName": {
           "type": "string"
         },
-        "groupUuid": {},
+        "groupUuid": {
+          "type": "string"
+        },
         "localUpdateDateTime": {
           "type": "string",
           "format": "date-time"
@@ -636,20 +2159,18 @@
     },
     "GroupsResponse": {
       "description": "Groups is a collection of groups",
-      "headers": {
-        "Groups": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Group"
-          }
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Group"
         }
       }
     },
+    "HttpResponse": {
+      "description": "An ok http response"
+    },
     "LicenseResponse": {
       "description": "License model",
-      "schema": {
-        "$ref": "#/definitions/UUID"
-      },
       "headers": {
         "activationDate": {
           "type": "string"
@@ -663,8 +2184,12 @@
         "applicationVersion": {
           "type": "string"
         },
-        "licenseId": {},
-        "licenseUuid": {},
+        "licenseId": {
+          "type": "string"
+        },
+        "licenseUuid": {
+          "type": "string"
+        },
         "machineKey": {
           "type": "string"
         },
@@ -694,9 +2219,6 @@
     },
     "SiteResponse": {
       "description": "Site model",
-      "schema": {
-        "$ref": "#/definitions/UUID"
-      },
       "headers": {
         "localUpdateDateTime": {
           "type": "string",
@@ -706,18 +2228,19 @@
           "type": "string",
           "format": "date-time"
         },
-        "siteID": {},
+        "siteID": {
+          "type": "string"
+        },
         "siteName": {
           "type": "string"
         },
-        "siteUUID": {}
+        "siteUUID": {
+          "type": "string"
+        }
       }
     },
     "SubjectResponse": {
       "description": "Subject model",
-      "schema": {
-        "$ref": "#/definitions/UUID"
-      },
       "headers": {
         "localUpdateDateTime": {
           "type": "string",
@@ -760,19 +2283,25 @@
           "type": "integer",
           "format": "int64"
         },
-        "subjectGroupUuid": {},
+        "subjectGroupUuid": {
+          "type": "string"
+        },
         "subjectHeight": {
           "type": "number",
           "format": "float"
         },
-        "subjectId": {},
+        "subjectId": {
+          "type": "string"
+        },
         "subjectLastName": {
           "type": "string"
         },
         "subjectPhoneNumber": {
           "type": "string"
         },
-        "subjectSiteUuid": {},
+        "subjectSiteUuid": {
+          "type": "string"
+        },
         "subjectStatus": {
           "type": "integer",
           "format": "int64"
@@ -780,17 +2309,17 @@
         "subjectUserName": {
           "type": "string"
         },
-        "subjectUuid": {}
+        "subjectUuid": {
+          "type": "string"
+        }
       }
     },
     "SubjectsResponse": {
       "description": "Subjects is a collection of Subjects",
-      "headers": {
-        "Subjects": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Subject"
-          }
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Subject"
         }
       }
     }

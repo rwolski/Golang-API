@@ -30,6 +30,8 @@ func RegisterGroupEndpoints(e *echo.Group) {
 // Schemes: http, https
 // Responses:
 // 	200: GroupResponse
+//  401: HttpResponse
+//  409: GroupResponse A more recent version is available
 func saveGroup(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -59,7 +61,7 @@ func saveGroup(e echo.Context) error {
 		}
 	} else {
 		if g.GroupID == "" {
-			g.GroupID = bson.NewObjectId()
+			g.GroupID = bson.NewObjectId().String()
 		}
 
 		err = db.C("Groups").Insert(&g)
@@ -82,6 +84,7 @@ func saveGroup(e echo.Context) error {
 // Schemes: http, https
 // Responses:
 // 	200: GroupResponse
+//  401: HttpResponse
 func getGroup(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -120,6 +123,7 @@ func getGroup(e echo.Context) error {
 // Schemes: http, https
 // Responses:
 // 	200: GroupsResponse
+//  401: HttpResponse
 func getGroups(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {

@@ -2,16 +2,14 @@ package models
 
 import (
 	"time"
-
-	uuid "github.com/satori/go.uuid"
-	"gopkg.in/mgo.v2/bson"
 )
 
 // BalanceLosTest
+// swagger:response BalanceLosTestResponse
 type BalanceLosTest struct {
-	TestID               bson.ObjectId
-	TestUUID             uuid.UUID
-	TestSessionUUID      uuid.UUID
+	TestID               string
+	TestUUID             string
+	TestSessionUUID      string
 	TestFormat           int
 	TestType             string
 	TestIndex            int

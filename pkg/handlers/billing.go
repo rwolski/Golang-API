@@ -39,11 +39,8 @@ func saveAccount(e echo.Context) error {
 	err = db.C("BillingAccounts").Find(bson.M{"billingAccountUuid": a.BillingAccountUUID}).One(&existing)
 
 	if err == nil {
-		//fmt.Printf("Found bill account: %+v", existing)
-
 		if existing.ServerUpdateDateTime.After(a.LocalUpdateDateTime) {
 			// Server version is more recent
-			//fmt.Printf("Billing account is out of date, returning")
 			return e.JSON(http.StatusConflict, existing)
 		}
 
@@ -52,19 +49,15 @@ func saveAccount(e echo.Context) error {
 		if err != nil {
 			return err
 		}
-
-		//fmt.Printf("Updated billing account: %+v", a)
 	} else {
 		if a.BillingAccountID == "" {
-			a.BillingAccountID = bson.NewObjectId()
+			a.BillingAccountID = bson.NewObjectId().String()
 		}
 
 		// Default to 20 credits if master admin (so 1 trial account per system only)
 		if a.TrialAccount {
 			a.BillingCredits = 20
 		}
-
-		//fmt.Printf("New billing account: %+v", a)
 
 		err = db.C("BillingAccounts").Insert(&a)
 		if err != nil {
@@ -110,9 +103,9 @@ func getAccount(e echo.Context) error {
 		if u.AdminStatus == 2 {
 			a.BillingCredits = 20
 		}
-		a.BillingAccountID = bson.NewObjectId()
-		a.BillingAccountUUID = billingID
-		a.BillingAdminUUID = adminID
+		a.BillingAccountID = bson.NewObjectId().String()
+		a.BillingAccountUUID = billingID.String()
+		a.BillingAdminUUID = adminID.String()
 		err = db.C("BillingAccounts").Insert(&a)
 		if err != nil {
 			return err
@@ -182,7 +175,7 @@ func saveEvent(e echo.Context) error {
 	}
 
 	if b.BillingEventID == "" {
-		b.BillingEventID = bson.NewObjectId()
+		b.BillingEventID = bson.NewObjectId().String()
 	}
 
 	_, err = db.C("BillingEvents").Upsert(bson.M{"billingEventUuid": b.BillingEventUUID}, &b)

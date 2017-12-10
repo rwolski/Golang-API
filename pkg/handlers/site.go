@@ -30,6 +30,8 @@ func RegisterSiteEndpoints(e *echo.Group) {
 // Schemes: http, https
 // Responses:
 // 	200: SiteResponse
+//  401: HttpResponse
+//  409: SiteResponse A more recent version is available
 func saveSite(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
@@ -60,7 +62,7 @@ func saveSite(e echo.Context) error {
 	} else {
 
 		if s.SiteID == "" {
-			s.SiteID = bson.NewObjectId()
+			s.SiteID = bson.NewObjectId().String()
 		}
 
 		err = db.C("Sites").Insert(&s)
@@ -83,6 +85,7 @@ func saveSite(e echo.Context) error {
 // Schemes: http, https
 // Responses:
 // 	200: SiteResponse
+//  401: HttpResponse
 func getSite(e echo.Context) error {
 	db := e.Get("database").(*mgo.Database)
 	if db == nil {
